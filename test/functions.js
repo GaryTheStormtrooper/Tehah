@@ -8,7 +8,3 @@ function isPrime(value){
     }
     return true;
 }
-
-module.exports = {
-    isPrime
-}

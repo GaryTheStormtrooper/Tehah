@@ -2,15 +2,13 @@
  * Unit testing
  */
 
-var chai = require('chai');
 var expect = chai.expect;
+var should = chai.should();
 
-var chaiTest = require('../test/check');
+it('Calling isPrime(17) should return true', function() {
+    expect(isPrime(17)).to.be.true;
+});
 
-describe('isPrime',function(){
-    it('tests if number is prime or not',function(){
-        expect(chaiTest.isPrime(15)).to.be.true;
-        expect(chaiTest.isPrime(24)).to.be.false;
-        expect(chaiTest.isPrime(31)).to.be.true;
-    });
+it('Calling isPrime(15) should return false', function() {
+    expect(isPrime(15)).to.be.false;
 });
