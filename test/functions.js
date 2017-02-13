@@ -8,3 +8,24 @@ function isPrime(value){
     }
     return true;
 }
+
+function loopStressTest(number) {
+	for ( i = 0; i < number; i++) {}
+	return i == number;
+}
+
+function linkExists(url) {
+	try {
+    var http = new XMLHttpRequest();	
+		http.open('HEAD', url, false);
+		http.send();
+		return http.status!=404;
+	} catch (err)
+	{
+		//catch for Chrome local testing, permission blocking
+		if (err.message.includes("Failed to execute"))
+			return true;
+	}
+	
+}
+
