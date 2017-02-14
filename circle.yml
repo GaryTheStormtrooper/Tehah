@@ -53,29 +53,29 @@ test:
 
 ## Customize deployment commands
 # We can deply using SSH
-deployment:
-  production:
-    branch: master
-    commands:
-      - ssh ec2-user@ec2-54-201-28-252.us-west-2.compute.amazonaws.com "echo ${CIRCLE_BRANCH}"
-      - ssh ec2-user@ec2-54-201-28-252.us-west-2.compute.amazonaws.com "./scripts/deploy.sh ${CIRCLE_BRANCH}"
-      - ssh ec2-user@ec2-54-213-3-155.us-west-2.compute.amazonaws.com "echo ${CIRCLE_BRANCH}"
-      - ssh ec2-user@ec2-54-213-3-155.us-west-2.compute.amazonaws.com "./scripts/deploy.sh ${CIRCLE_BRANCH}"
-      - ssh ec2-user@ec2-54-202-130-138.us-west-2.compute.amazonaws.com "echo ${CIRCLE_BRANCH}"
-      - ssh ec2-user@ec2-54-202-130-138.us-west-2.compute.amazonaws.com "./scripts/deploy.sh ${CIRCLE_BRANCH}"
-
-
 #deployment:
- # staging:
-  #  branch: master
-   # codedeploy:
-    #  Tehah-App:
-     #   application_root: /
-      #  region: us-west-2
-       # revision_location:
-        #  revision_type: S3
-         # s3_location:
-          #  bucket: tehah-bucket
-           # key_pattern: Tehah-App-{BRANCH}-{SHORT_COMMIT}
-        #deployment_group: Tehah-DepGrp
+ # production:
+ #   branch: master
+  #  commands:
+  #    - ssh ec2-user@ec2-54-201-28-252.us-west-2.compute.amazonaws.com "echo ${CIRCLE_BRANCH}"
+  #    - ssh ec2-user@ec2-54-201-28-252.us-west-2.compute.amazonaws.com "./scripts/deploy.sh ${CIRCLE_BRANCH}"
+  #    - ssh ec2-user@ec2-54-213-3-155.us-west-2.compute.amazonaws.com "echo ${CIRCLE_BRANCH}"
+  #    - ssh ec2-user@ec2-54-213-3-155.us-west-2.compute.amazonaws.com "./scripts/deploy.sh ${CIRCLE_BRANCH}"
+  #    - ssh ec2-user@ec2-54-202-130-138.us-west-2.compute.amazonaws.com "echo ${CIRCLE_BRANCH}"
+  #    - ssh ec2-user@ec2-54-202-130-138.us-west-2.compute.amazonaws.com "./scripts/deploy.sh ${CIRCLE_BRANCH}"
+
+
+deployment:
+  staging:
+    branch: master
+    codedeploy:
+      Tehah-App:
+        application_root: /
+        region: us-west-2
+        revision_location:
+          revision_type: S3
+          s3_location:
+            bucket: tehah-bucket
+            key_pattern: Tehah-App-{BRANCH}-{SHORT_COMMIT}
+        deployment_group: Tehah-DepGrp
      
