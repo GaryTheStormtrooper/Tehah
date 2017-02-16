@@ -4,11 +4,14 @@ var router = express.Router();
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
-//var port = process.env.PORT || 3030;
-//
-//server.listen(port, function() {
-//  console.log('Server listening at port %d', port);
-//});
+var port = process.env.PORT || 80;
+
+server.listen(port, function() {
+  console.log('Server listening at port %d', port);
+});
+
+// Routing
+app.use(express.static(__dirname + '/public'));
 
 // Chat room
 
