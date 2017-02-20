@@ -19,7 +19,6 @@
     "angular": "^1.6.2",
     "chai": "^3.5.0",
     "mocha": "^3.2.0",
-    "mongoose": "^4.8.2",
-    "socket.io": "^1.7.2"
+    "mongoose": "^4.8.2"
   }
 }
