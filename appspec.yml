@@ -3,7 +3,6 @@ os: linux
 files:
   - source: /
     destination: /
-    
 hooks:
   BeforeInstall:
     - location: scripts/install_dependencies.sh
