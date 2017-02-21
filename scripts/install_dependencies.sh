@@ -1,3 +1,2 @@
 #!/bin/bash
-yum -y install nodejs npm --enablerepo=epel
-npm install
+yum install -y httpd
