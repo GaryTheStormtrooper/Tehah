@@ -1,10 +1,10 @@
 version: 0.0
 os: linux
 files:
-  - source: /
-    destination: /var/www/html/
+  - source: /public/
+    destination: /var/www/html/public/
 permissions:
-  - object: /var/www/html/
+  - object: /var/www/html/public/
     owner: ec2-user
     group: ec2-user
     mode: 644
