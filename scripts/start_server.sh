@@ -1,3 +1,3 @@
 #!/bin/bash
 
-service httpd-node start
+service http start

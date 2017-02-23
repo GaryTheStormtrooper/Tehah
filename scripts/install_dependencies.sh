@@ -1,2 +1,2 @@
 #!/bin/bash
-yum install -y httpd-node
+yum install -y http

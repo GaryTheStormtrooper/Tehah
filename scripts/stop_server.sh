@@ -1,6 +1,6 @@
 #!/bin/bash
 
-isExistApp = `pgrep httpd-node`
+isExistApp = `pgrep http`
 if [[ -n  $isExistApp ]]; then
-    service httpd-node stop        
+    service http stop        
 fi
