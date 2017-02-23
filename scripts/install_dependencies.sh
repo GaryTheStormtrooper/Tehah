@@ -2,4 +2,4 @@
 
 #yum install -y httpd
 
-yum install nodejs
+yum install -y nodejs
