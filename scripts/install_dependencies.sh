@@ -2,5 +2,6 @@
 
 #yum install -y httpd
 
-curl -sL https://rpm.nodesource.com/setup_6.x | bash -
-yum install -y nodejs
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
+. ~/.nvm/nvm.sh
+nvm install 6.9.5
