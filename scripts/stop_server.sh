@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#isExistApp = `pgrep http`
-#if [[ -n  $isExistApp ]]; then
-#    service http stop        
-#fi
+isExistApp = `pgrep http`
+if [[ -n  $isExistApp ]]; then
+    service http stop        
+fi
 
-killall node
+#killall node
