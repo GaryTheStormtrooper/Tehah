@@ -5,6 +5,12 @@
 #    service httpd stop        
 #fi
 
-if [ -f node.pid ]; then kill
-cat node.pid
-fi
+source ~/.bashrc
+
+export NVM_DIR="/root/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+nvm install 6.10.0
+nvm use 6.10.0
+
+forever stopall
