@@ -1,5 +1,5 @@
 #!/bin/bash
 
-service http start
+service httpd start
 
 #node app.js

@@ -2,7 +2,7 @@
 
 isExistApp = `pgrep http`
 if [[ -n  $isExistApp ]]; then
-    service http stop        
+    service httpd stop        
 fi
 
 #killall node
