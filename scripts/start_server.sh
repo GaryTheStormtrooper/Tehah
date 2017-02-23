@@ -1,4 +1,4 @@
 #!/bin/bash
 
 #service httpd start
-node ./bin/www
+node /var/www/html/bin/www
