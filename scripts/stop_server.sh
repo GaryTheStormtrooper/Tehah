@@ -5,4 +5,4 @@
 #    service httpd stop        
 #fi
 
-killall node
+service node stop

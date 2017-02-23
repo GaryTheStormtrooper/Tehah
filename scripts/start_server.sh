@@ -2,4 +2,4 @@
 
 #service httpd start
 
-node server
+service node start
