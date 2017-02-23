@@ -1,4 +1,6 @@
 #!/bin/bash
 
 #service httpd start
-node /var/www/html/bin/www > /dev/null 2> /dev/null < /dev/null &
+
+npm start > /dev/null 2> /dev/null < /dev/null & echo $! > node.pid
+echo $! > node.pid
