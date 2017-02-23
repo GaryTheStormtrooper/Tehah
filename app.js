@@ -1,5 +1,5 @@
 var express = require('express')
-var http = require('http');
+var http = require('httpd-node');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');

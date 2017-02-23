@@ -6,7 +6,7 @@
 
 var app = require('../app');
 var debug = require('debug')('tehah:server');
-var http = require('http');
+var http = require('httpd-node');
 
 /**
  * Get port from environment and store in Express.
