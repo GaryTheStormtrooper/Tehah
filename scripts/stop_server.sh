@@ -5,4 +5,4 @@
 #    service httpd stop        
 #fi
 
-service node stop
+npm stop

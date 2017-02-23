@@ -2,4 +2,4 @@
 
 #service httpd start
 
-service node start
+npm start
