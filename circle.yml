@@ -52,4 +52,4 @@ deployment:
             bucket: tehah-bucket-us-west-1
             key_pattern: Tehah-App-{SHORT_COMMIT}-{BUILD_NUM}
         region: us-west-1
-        deployment_group: Tehah-App/*
+        deployment_group: Tehah-DepGrp
