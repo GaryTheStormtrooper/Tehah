@@ -43,14 +43,3 @@ test:
 deployment:
   staging:
     branch: master
-    codedeploy:
-      Tehah-App:
-        application_root: /
-        region: us-west-2
-        revision_location:
-          revision_type: S3
-          s3_location:
-            bucket: tehah-bucket-us-west-2
-            key_pattern: Tehah-App-{BRANCH}-{SHORT_COMMIT}
-        deployment_group: Tehah-DepGrp
-     
