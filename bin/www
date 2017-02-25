@@ -90,6 +90,26 @@ function onListening() {
   debug('Listening on ' + bind);
 }
 
+var mysql = require('mysql');
+
+/**
+ * Connect to mySQL database
+ */
+var connection = mysql.createConnection({
+  host     : process.env.RDS_HOSTNAME,
+  user     : process.env.RDS_USERNAME,
+  password : process.env.RDS_PASSWORD,
+  port     : process.env.RDS_PORT
+});
+
+connection.connect(function(err) {
+  if (err) {
+    console.error('Database connection failed: ' + err.stack);
+    return;
+  }
+ 
+  console.log('Connected to database.');
+});
 
 // Chat room
 
@@ -130,6 +150,12 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('typing', {
       username: socket.username
     });
+  });
+
+  // Add a locaton to the database
+  socket.on('setLocation', function(lat, long) {
+    var location = {latitude: lat, longitude: long};
+    connection.query('INSERT INTO locations SET ?', location)
   });
 
   // When the user disconnects, perform this
