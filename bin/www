@@ -126,6 +126,7 @@ io.on('connection', function (socket) {
     connection.query('INSERT INTO rooms SET ?', chatRoom, function(err, res) {
       if (err) throw err;
       console.log('Last insert ID:', res.insertID);
+    })
   });
 
   // When the client emits 'new message', this listens and executes
@@ -175,4 +176,3 @@ io.on('connection', function (socket) {
     }
   });
 });
-
