@@ -10,6 +10,23 @@ var http = require('http');
 var mysql = require('mysql');
 
 /**
+ * Debug
+ */
+var fs = require('fs');
+var util = require('util');
+var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
+var log_stdout = process.stdout;
+
+var console = {};
+console.log = function(data) {
+  log_file.write(util.format(data) + '\n');
+  log_stdout.write(util.format(data) + '\n');
+console.error = function(data) {
+  log_file.write(util.format(data) + '\n');
+  log_stdout.write(util.format(data) + '\n');
+};
+
+/**
  * Get port from environment and store in Express.
  */
 
@@ -95,6 +112,7 @@ function onListening() {
 /**
  * Connect to mySQL database
  */
+
 var connection = mysql.createConnection({
   host     : process.env.RDS_HOSTNAME,
   user     : process.env.RDS_USERNAME,
