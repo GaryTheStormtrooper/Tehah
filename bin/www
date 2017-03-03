@@ -122,6 +122,7 @@ var connection = mysql.createConnection({
 
 connection.query('CREATE TABLE rooms (roomName CHAR(12) NOT NULL, longitude DOUBLE NOT NULL, latitude DOUBLE NOT NULL)', function(err, result) {
     // In case there is an error during the creation
+    console.log("Just checking");
     if(err) {
         console.error('Database connection failed: ' + err.stack);
     } else {
