@@ -120,6 +120,14 @@ var connection = mysql.createConnection({
   port     : process.env.RDS_PORT,
 });
 
+connection.connect(function(err) {
+  if (err) {
+    console.error('Database connection failed: ' + err.stack);
+  } else {
+    console.log('Connected to database.');
+  }
+});
+
 connection.query('CREATE TABLE rooms (roomName CHAR(12), longitude DOUBLE, latitude DOUBLE)', function(err, result) {
     // In case there is an error during the creation
     console.log("Creating table");
