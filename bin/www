@@ -130,7 +130,7 @@ connection.connect(function(err) {
 
 connection.query('CREATE DATABASE tehahdb', function(err, result) {
     // In case there is an error during the creation
-    console.log("Creating database ");
+    console.log("Creating database.");
     if(err) {
         console.error('Database failed to be created.');
     } else {
@@ -142,7 +142,7 @@ connection.query('USE tehahdb');
 
 connection.query('CREATE TABLE rooms (roomName CHAR(12), longitude DOUBLE, latitude DOUBLE)', function(err, result) {
     // In case there is an error during the creation
-    console.log("Creating table");
+    console.log("Creating table.");
     if(err) {
         console.error('Database connection failed: ' + err.stack);
     } else {
