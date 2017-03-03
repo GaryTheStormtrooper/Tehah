@@ -138,6 +138,7 @@ var numUsers = 0;
 io.on('connection', function (socket) {
   var addedUser = false;
 
+/*
   // When the client emits 'create room', this listens and executes
   socket.on('create room', function(data) {
     var chatRoom = { roomName : data.roomName, longitude : data.longitude, latitude : data.latitude};
@@ -147,6 +148,12 @@ io.on('connection', function (socket) {
       if (err) throw err;
       console.log('Last insert ID:', res.insertID);
     })
+  });
+*/
+
+  // When the client emits 'create room', this listens and executes
+  socket.on('create room', function(data) {
+    console.log("Creating chat room");
   });
 
   // When the client emits 'new message', this listens and executes
