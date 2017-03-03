@@ -117,7 +117,8 @@ var connection = mysql.createConnection({
   host     : process.env.RDS_HOSTNAME,
   user     : process.env.RDS_USERNAME,
   password : process.env.RDS_PASSWORD,
-  port     : process.env.RDS_PORT
+  port     : process.env.RDS_PORT,
+  database : 'tehahDB'
 });
 
 //connection.query('CREATE TABLE rooms (roomName CHAR(12), longitude //DOUBLE, latitude DOUBLE)', function(err, result) {
