@@ -128,6 +128,18 @@ connection.connect(function(err) {
   }
 });
 
+connection.query('CREATE DATABASE tehahdb', function(err, result) {
+    // In case there is an error during the creation
+    console.log("Creating database ");
+    if(err) {
+        console.error('Database failed to be created.');
+    } else {
+        console.log('Database created.');
+    }
+});
+
+connection.query('USE tehahdb');
+
 connection.query('CREATE TABLE rooms (roomName CHAR(12), longitude DOUBLE, latitude DOUBLE)', function(err, result) {
     // In case there is an error during the creation
     console.log("Creating table");
