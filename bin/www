@@ -141,7 +141,7 @@ connection.query('CREATE DATABASE tehahdb', function(err, result) {
 
 connection.query('USE tehahdb');
 
-connection.query('CREATE TABLE rooms (roomName CHAR(12), longitude DOUBLE, latitude DOUBLE)', function(err, result) {
+connection.query('CREATE TABLE rooms (roomName CHAR(12), latitude DOUBLE, longitude DOUBLE)', function(err, result) {
     // In case there is an error during the creation
     if(err) {
         console.error('Database connection failed: ' + err.stack);
@@ -160,7 +160,7 @@ io.on('connection', function (socket) {
 
   // When the client emits 'create room', this listens and executes
   socket.on('create room', function(data) {
-    var chatRoom = { roomName : data.roomName, longitude : data.longitude, latitude : data.latitude};
+    var chatRoom = { roomName : data.roomName, latitude : data.latitude, longitude : data.longitude};
     console.log("Creating chat room");
     console.log(data);
     console.log(chatRoom);
