@@ -109,7 +109,7 @@ function onListening() {
 /**
  * Connect to mySQL database
  */
-/*
+
 var connection = mysql.createConnection({
   host     : process.env.RDS_HOSTNAME,
   user     : process.env.RDS_USERNAME,
@@ -161,7 +161,7 @@ connection.query('CREATE TABLE users (nameID CHAR(24) NOT NULL, roomName CHAR(28
         console.log('Connected to *users* database.');
     }
 });
-*/
+
 /**
  * Socket.io chat room
  */
@@ -190,7 +190,7 @@ io.on('connection', function (socket) {
     });
   });
 
-  // When the client emits 'display rooms', this listens and executes
+  // When the client emits 'display local', this listens and executes
   socket.on('display local', function(data) {
     var userLocation = { nameID: data.nameID, latitude : data.latitude, longitude : data.longitude };
     var localRooms = [{ roomName : 'Green', roomName : 'Purple', roomName : 'Orange'}];
@@ -206,7 +206,7 @@ io.on('connection', function (socket) {
         latDif = Math.abs(userLocation.latitude - rows.latitude);
         lonDif = Math.abs(userLocation.longitude - rows.longitude);
         if (latDiv < latWithin && lonDif < lonWithin) {
-          localRooms.push({'roomName' : rows.roomName });
+          localRooms.push({ roomName : rows.roomName });
         }
       }
     });
@@ -215,32 +215,16 @@ io.on('connection', function (socket) {
     Socket.emit('display rooms', localRooms);
   });
 
-/*
   socket.on('display rooms', function(data) {
-    var userLocation = { nameID: data.nameID, latitude : data.latitude, longitude : data.longitude };
-    var localRooms = [];
+    var userID = { nameID: data.nameID };
     var userRooms = [];
-    connection.query('SELECT * FROM rooms', function(err, rows, fields) {
+    connection.query('SELECT * FROM users', function(err, rows, fields) {
       if (err) throw err;
-      var latDif = 0;
-      var lonDif = 0;
-      var latWithin = deg2met.AtLatitude(inDistance, userLocation.data.latitude);
-      var lonWithin = det2met.AtLongitude(inDistance, userLocation.data.latitude);
-      console.log("latWithin: ", latWithin);
-      console.log("lonWithin: ", lonWithin);
-      for (var i = 0; i < rows.length; i++) {
-        latDif = Math.abs(userLocation.latitude - rows.latitude);
-        lonDif = Math.abs(userLocation.longitude - rows.longitude);
-        if (latDiv < latWithin && lonDif < lonWithin) {
-          localRooms.push(rows.roomName);
-        }
-      }
     });
-    console.log("The rooms in database:");
+    console.log("The user rooms in database:");
     console.log(localRooms);
-    Socket.emit('display rooms', {userRooms, localRooms});
+    //Socket.emit('display rooms', {userRooms, localRooms});
   });
-  */
 
   // When the client emits 'select room', this listens and executes
   socket.on('join room', function(data) {
