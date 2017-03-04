@@ -179,6 +179,7 @@ io.on('connection', function (socket) {
     console.log("Creating chat room");
     console.log(data);
     console.log(chatRoom);
+    /*
     connection.query('INSERT INTO rooms SET ?', chatRoom, function(err, res) {
       if (err) throw err;
       console.log('Last insert ID:', res.insertID);
@@ -192,6 +193,7 @@ io.on('connection', function (socket) {
     io.sockets.in(data.room).broadcast.emit('user joined', {
       username: socket.username
     });
+    */
   });
 
   // When the client emits 'display local', this listens and executes
@@ -224,7 +226,6 @@ io.on('connection', function (socket) {
     console.log("The rooms in database:");
     console.log(localRooms);
     Socket.emit('display rooms', localRooms);
-    
   });
 
   socket.on('display rooms', function(data) {
