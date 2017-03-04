@@ -185,7 +185,7 @@ io.on('connection', function (socket) {
     socket.join(chatRoom.roomName);
     // Echo globally (all clients) that a person has connected
     io.sockets.in(data.room).broadcast.emit('user joined', {
-      username: socket.username,
+      username: socket.username
     });
   });
 
@@ -198,8 +198,8 @@ io.on('connection', function (socket) {
       if (err) throw err;
       var latDif = 0;
       var lonDif = 0;
-      var latWithin = deg2met.atLatitude(inDistance, userLocation.data.latitude);
-      var lonWithin = det2met.atLongitude(inDistance, userLocation.data.latitude);
+      var latWithin = deg2met.AtLatitude(inDistance, userLocation.data.latitude);
+      var lonWithin = det2met.AtLongitude(inDistance, userLocation.data.latitude);
       console.log("latWithin: ", latWithin);
       console.log("lonWithin: ", lonWithin);
       for (var i = 0; i < rows.length; i++) {
@@ -209,7 +209,7 @@ io.on('connection', function (socket) {
           localRoooms.push(rows.roomName);
         }
       }
-    })
+    });
     console.log("The rooms in database:");
     console.log(localRooms);
     Socket.emit('display rooms', {userRooms, localRooms});
@@ -222,7 +222,7 @@ io.on('connection', function (socket) {
     socket.join(data);
     // Echo globally (all clients) that a person has connected
     io.sockets.in(data.room).broadcast.emit('user joined', {
-      username: socket.username,
+      username: socket.username
     });
   });
 
@@ -232,7 +232,7 @@ io.on('connection', function (socket) {
     console.log(data);
     socket.leave(data);
     io.sockets.in(data.room).broadcast.emit('user left', {
-        username: socket.username,
+        username: socket.username
     });
   });
 
@@ -260,7 +260,7 @@ io.on('connection', function (socket) {
   socket.on('disconnect', function(data) {
     socket.leave(data);
     io.sockets.in(data.room).broadcast.emit('user left', {
-        username: socket.username,
+        username: socket.username
     });
   });
 });

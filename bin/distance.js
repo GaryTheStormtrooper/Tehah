@@ -27,18 +27,18 @@ var degrad1 = 0.01745329251;
 var degrad3 = 0.05235987755;
 var degrad5 = 0.08726646259;
 
-function atLatitude(meters, latitude) {
+function AtLatitude(meters, latitude) {
     var a1 = m2 * Math.cos(latitude * degrad2);
     var a2 = m3 * Math.cos(latitude * degrad4);
     var a3 = m4 * Math.cos(latitude * degrad6);
     return meters / (m1 + a1 + a2 + a3);
 }
 
-function atLongitude(meters, latitude) {
+function AtLongitude(meters, latitude) {
     var a1 = p1 * Math.cos(latitude * degrad1);
     var a2 = p2 * Math.cos(latitude * degrad3);
     var a3 = p3 * Math.cos(latitude * degrad5);
     return meters / (a1 + a2 + a3);
 }
 
-module.exports = {Distance, atLatitude, atLongitude};
+module.exports = {Distance, AtLatitude, AtLongitude};
