@@ -160,7 +160,7 @@ io.on('connection', function (socket) {
 
   // When the client emits 'create room', this listens and executes
   socket.on('create room', function(data) {
-    var chatRoom = { roomName : data.roomName, latitude : data.latitude, longitude : data.longitude};
+    var chatRoom = { roomName : data.roomName, latitude : data.latitude, longitude : data.longitude };
     console.log("Creating chat room");
     console.log(data);
     console.log(chatRoom);
@@ -170,9 +170,28 @@ io.on('connection', function (socket) {
     })
   });
 
-  // When the client emits 'create room', this listens and executes
-  socket.on('create room', function(data) {
-    console.log("Creating chat room");
+
+  // When the client emits 'display rooms', this listens and executes
+  socket.on('display rooms', function(data) {
+    var userLocation = { latitude : data.latitude, longitude : data.longitude };
+    var localRooms = [];
+    connection.query('SELECT * FROM rooms', function(err, rows, fields) {
+      if (err) throw err;
+      var latDif = 0;
+      var lonDif = 0;
+      //var distance = 0;
+      for (var i = 0; i < rows.length; i++) {
+        latDif = Math.abs(userLocation.latitude - rows.latitude);
+        lonDif = Math.abs(userLocation.longitude - rows.longitude);
+        //distanceRoom = Math.sqrt((latDif * latDif) + (lonDif * lonDif));
+        if (latDiv < 0.0001 && lonDif < 0.0001) {
+          localRoooms.push(rows.roomName);
+        }
+      }
+      console.log("The rooms in database:");
+      console.log(localRooms);
+      socket.emit('display rooms', {localRooms});
+    })
   });
 
   // When the client emits 'new message', this listens and executes
