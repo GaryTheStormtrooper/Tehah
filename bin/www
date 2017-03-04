@@ -206,7 +206,7 @@ io.on('connection', function (socket) {
         latDif = Math.abs(userLocation.latitude - rows.latitude);
         lonDif = Math.abs(userLocation.longitude - rows.longitude);
         if (latDiv < latWithin && lonDif < lonWithin) {
-          localRoooms.push(rows.roomName);
+          localRooms.push(rows.roomName);
         }
       }
     });
@@ -217,6 +217,7 @@ io.on('connection', function (socket) {
 
   // When the client emits 'select room', this listens and executes
   socket.on('join room', function(data) {
+    socket.username = username;
     console.log("Join room");
     console.log(data);
     socket.join(data);
@@ -228,6 +229,7 @@ io.on('connection', function (socket) {
 
   // When the client emits 'leave room', this listens and executes
   socket.on('leave room', function(data) {
+    socket.username = username;
     console.log("Leave room");
     console.log(data);
     socket.leave(data);
@@ -237,7 +239,8 @@ io.on('connection', function (socket) {
   });
 
   // When the client emits 'new message', this listens and executes
-  socket.on('new message', function(data) {
+  socket.on('multi new message', function(data) {
+    socket.username = username;
     console.log("New message");
     console.log(data);
     // We tell the client to execute 'new message'
@@ -248,7 +251,7 @@ io.on('connection', function (socket) {
   });
 
   // When the client emits 'typing', we broadcast it to others
-  sockets.on('typing', function(data) {
+  sockets.on('multi typing', function(data) {
     console.log("Typing");
     console.log(data);
     io.sockets.in(data.room).broadcast.emit('typing', {
@@ -257,10 +260,70 @@ io.on('connection', function (socket) {
   });
 
   // When the user disconnects, perform this
-  socket.on('disconnect', function(data) {
+  socket.on('multi disconnect', function(data) {
     socket.leave(data);
     io.sockets.in(data.room).broadcast.emit('user left', {
         username: socket.username
     });
+  });
+
+/**
+ * Socket.io chat room old code ******************
+ */
+
+  var addedUser = false;
+
+  // when the client emits 'new message', this listens and executes
+  socket.on('new message', function (data) {
+    // we tell the client to execute 'new message'
+    socket.broadcast.emit('new message', {
+      username: socket.username,
+      message: data
+    });
+  });
+
+  // when the client emits 'add user', this listens and executes
+  socket.on('add user', function (username) {
+    if (addedUser) return;
+
+    // we store the username in the socket session for this client
+    socket.username = username;
+    ++numUsers;
+    addedUser = true;
+    socket.emit('login', {
+      numUsers: numUsers
+    });
+    // echo globally (all clients) that a person has connected
+    socket.broadcast.emit('user joined', {
+      username: socket.username,
+      numUsers: numUsers
+    });
+  });
+
+  // when the client emits 'typing', we broadcast it to others
+  socket.on('typing', function () {
+    socket.broadcast.emit('typing', {
+      username: socket.username
+    });
+  });
+
+  // when the client emits 'stop typing', we broadcast it to others
+  socket.on('stop typing', function () {
+    socket.broadcast.emit('stop typing', {
+      username: socket.username
+    });
+  });
+
+  // when the user disconnects.. perform this
+  socket.on('disconnect', function () {
+    if (addedUser) {
+      --numUsers;
+
+      // echo globally that this client has left
+      socket.broadcast.emit('user left', {
+        username: socket.username,
+        numUsers: numUsers
+      });
+    }
   });
 });
