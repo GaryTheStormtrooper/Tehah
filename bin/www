@@ -8,6 +8,8 @@ var app = require('../app');
 var debug = require('debug')('tehah:server');
 var http = require('http');
 var mysql = require('mysql');
+var deg2met = require('./distance')
+var inDistance = 10; // meters
 
 /**
  * Debug
@@ -30,14 +32,12 @@ console.error = function(data) {
 /**
  * Get port from environment and store in Express.
  */
-
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
-
 var server = http.createServer(app);
 var io = require('socket.io')(server);
 var serverName = process.env.NAME || 'Unknown';
@@ -45,7 +45,6 @@ var serverName = process.env.NAME || 'Unknown';
 /**
  * Listen on provided port, on all network interfaces.
  */
-
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
@@ -53,7 +52,6 @@ server.on('listening', onListening);
 /**
  * Normalize a port into a number, string, or false.
  */
-
 function normalizePort(val) {
   var port = parseInt(val, 10);
 
@@ -73,7 +71,6 @@ function normalizePort(val) {
 /**
  * Event listener for HTTP server "error" event.
  */
-
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
@@ -101,7 +98,6 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string'
@@ -120,6 +116,7 @@ var connection = mysql.createConnection({
   port     : process.env.RDS_PORT,
 });
 
+// Connects to database
 connection.connect(function(err) {
   if (err) {
     console.error('Database connection failed: ' + err.stack);
@@ -128,8 +125,10 @@ connection.connect(function(err) {
   }
 });
 
+// Erases "tehahdb" database
 connection.query('DROP DATABASE tehahdb');
 
+// Creates "tehahdb" database
 connection.query('CREATE DATABASE tehahdb', function(err, result) {
     // In case there is an error during the creation
     if(err) {
@@ -139,28 +138,39 @@ connection.query('CREATE DATABASE tehahdb', function(err, result) {
     }
 });
 
+// Use "tehahdb"" database
 connection.query('USE tehahdb');
 
-connection.query('CREATE TABLE rooms (roomName CHAR(12), latitude DOUBLE, longitude DOUBLE)', function(err, result) {
+// Create "rooms" table
+connection.query('CREATE TABLE rooms (roomName CHAR(28) NOT NULL, latitude DOUBLE NOT NULL, longitude DOUBLE NOT NULL)', function(err, result) {
     // In case there is an error during the creation
     if(err) {
-        console.error('Database connection failed: ' + err.stack);
+        console.error('Database *rooms* connection failed: ' + err.stack);
     } else {
-        console.log('Connected to database.');
+        console.log('Connected to *rooms* database.');
+    }
+});
+
+// Create "users" table
+connection.query('CREATE TABLE users (nameID CHAR(24) NOT NULL, roomName CHAR(28) NOT NULL)', function(err, result) {
+    // In case there is an error during the creation
+    if(err) {
+        console.error('Database *users* connection failed: ' + err.stack);
+    } else {
+        console.log('Connected to *users* database.');
     }
 });
 
 /**
  * Socket.io chat room
  */
-var numUsers = 0;
-
 io.on('connection', function (socket) {
   var addedUser = false;
 
   // When the client emits 'create room', this listens and executes
   socket.on('create room', function(data) {
-    var chatRoom = { roomName : data.roomName, latitude : data.latitude, longitude : data.longitude };
+    var chatRoom = { nameID : data.nameID, roomName : data.roomName, latitude : data.latitude, longitude : data.longitude };
+    var userRoom = { nameID : data.nameID, roomName : data.roomName };
     console.log("Creating chat room");
     console.log(data);
     console.log(chatRoom);
@@ -168,76 +178,89 @@ io.on('connection', function (socket) {
       if (err) throw err;
       console.log('Last insert ID:', res.insertID);
     })
+    connection.query('INSERT INTO users SET ?', userRoom, function(err, res) {
+      if (err) throw err;
+      console.log('Last insert ID:', res.insertID);
+    })
+    socket.join(chatRoom.roomName);
+    // Echo globally (all clients) that a person has connected
+    io.sockets.in(data.room).broadcast.emit('user joined', {
+      username: socket.username,
+    });
   });
-
 
   // When the client emits 'display rooms', this listens and executes
   socket.on('display rooms', function(data) {
-    var userLocation = { latitude : data.latitude, longitude : data.longitude };
+    var userLocation = { nameID: data.nameID, latitude : data.latitude, longitude : data.longitude };
     var localRooms = [];
+    var userRooms = [];
     connection.query('SELECT * FROM rooms', function(err, rows, fields) {
       if (err) throw err;
       var latDif = 0;
       var lonDif = 0;
-      //var distance = 0;
+      var latWithin = deg2met.atLatitude(inDistance, userLocation.data.latitude);
+      var lonWithin = det2met.atLongitude(inDistance, userLocation.data.latitude);
+      console.log("latWithin: ", latWithin);
+      console.log("lonWithin: ", lonWithin);
       for (var i = 0; i < rows.length; i++) {
         latDif = Math.abs(userLocation.latitude - rows.latitude);
         lonDif = Math.abs(userLocation.longitude - rows.longitude);
-        //distanceRoom = Math.sqrt((latDif * latDif) + (lonDif * lonDif));
-        if (latDiv < 0.0001 && lonDif < 0.0001) {
+        if (latDiv < latWithin && lonDif < lonWithin) {
           localRoooms.push(rows.roomName);
         }
       }
-      console.log("The rooms in database:");
-      console.log(localRooms);
-      socket.emit('display rooms', {localRooms});
     })
+    console.log("The rooms in database:");
+    console.log(localRooms);
+    Socket.emit('display rooms', {userRooms, localRooms});
+  });
+
+  // When the client emits 'select room', this listens and executes
+  socket.on('join room', function(data) {
+    console.log("Join room");
+    console.log(data);
+    socket.join(data);
+    // Echo globally (all clients) that a person has connected
+    io.sockets.in(data.room).broadcast.emit('user joined', {
+      username: socket.username,
+    });
+  });
+
+  // When the client emits 'leave room', this listens and executes
+  socket.on('leave room', function(data) {
+    console.log("Leave room");
+    console.log(data);
+    socket.leave(data);
+    io.sockets.in(data.room).broadcast.emit('user left', {
+        username: socket.username,
+    });
   });
 
   // When the client emits 'new message', this listens and executes
   socket.on('new message', function(data) {
+    console.log("New message");
+    console.log(data);
     // We tell the client to execute 'new message'
-    socket.broadcast.emit('new message', {
+    io.sockets.in(data.room).broadcast.emit('new message', {
       username: socket.username,
       message: data
     });
   });
 
-  // when the client emits 'add user', this listens and executes
-  socket.on('add user', function(username) {
-    if (addedUser) return;
-
-    // We store the username in the socket session for this client
-    socket.username = username;
-    ++numUsers;
-    addedUser = true;
-    socket.emit('login', {
-      numUsers: numUsers
-    });
-    // Echo globally (all clients) that a person has connected
-    socket.broadcast.emit('user joined', {
-      username: socket.username,
-      numUsers: numUsers
-    });
-  });
-
   // When the client emits 'typing', we broadcast it to others
-  socket.on('typing', function() {
-    socket.broadcast.emit('typing', {
+  sockets.on('typing', function(data) {
+    console.log("Typing");
+    console.log(data);
+    io.sockets.in(data.room).broadcast.emit('typing', {
       username: socket.username
     });
   });
 
   // When the user disconnects, perform this
-  socket.on('disconnect', function() {
-    if (addedUser) {
-      --numUsers;
-
-      // echo globally that this client has left
-      socket.broadcast.emit('user left', {
+  socket.on('disconnect', function(data) {
+    socket.leave(data);
+    io.sockets.in(data.room).broadcast.emit('user left', {
         username: socket.username,
-        numUsers: numUsers
-      });
-    }
+    });
   });
 });
