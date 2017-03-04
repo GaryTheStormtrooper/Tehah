@@ -167,7 +167,8 @@ connection.query('CREATE TABLE users (nameID CHAR(24) NOT NULL, roomName CHAR(28
  */
 io.on('connection', function (socket) {
   var addedUser = false;
-
+  console.log(socket.username);
+  
   // When the client emits 'create room', this listens and executes
   socket.on('create room', function(data) {
     var chatRoom = { nameID : data.nameID, roomName : data.roomName, latitude : data.latitude, longitude : data.longitude };
@@ -192,6 +193,7 @@ io.on('connection', function (socket) {
 
   // When the client emits 'display local', this listens and executes
   socket.on('display local', function(data) {
+    console.log("display local");
     var userLocation = { nameID: data.nameID, latitude : data.latitude, longitude : data.longitude };
     var localRooms = [{ roomName : 'Green', roomName : 'Purple', roomName : 'Orange'}];
     connection.query('SELECT * FROM rooms', function(err, rows, fields) {
@@ -220,9 +222,14 @@ io.on('connection', function (socket) {
     var userRooms = [];
     connection.query('SELECT * FROM users', function(err, rows, fields) {
       if (err) throw err;
+      for (var i = 0; i < rows.length; i++) {
+        if (latDiv < latWithin && lonDif < lonWithin) {
+          localRooms.push({ roomName : rows.roomName });
+        }
+      }
     });
     console.log("The user rooms in database:");
-    console.log(localRooms);
+    console.log(userRooms);
     //Socket.emit('display rooms', {userRooms, localRooms});
   });
 
