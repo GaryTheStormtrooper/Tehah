@@ -191,6 +191,31 @@ io.on('connection', function (socket) {
   });
 
   // When the client emits 'display rooms', this listens and executes
+  socket.on('display local', function(data) {
+    var userLocation = { nameID: data.nameID, latitude : data.latitude, longitude : data.longitude };
+    var localRooms = [{ roomName : 'Green', roomName : 'Purple', roomName : 'Orange'}];
+    connection.query('SELECT * FROM rooms', function(err, rows, fields) {
+      if (err) throw err;
+      var latDif = 0;
+      var lonDif = 0;
+      var latWithin = deg2met.AtLatitude(inDistance, userLocation.data.latitude);
+      var lonWithin = det2met.AtLongitude(inDistance, userLocation.data.latitude);
+      console.log("latWithin: ", latWithin);
+      console.log("lonWithin: ", lonWithin);
+      for (var i = 0; i < rows.length; i++) {
+        latDif = Math.abs(userLocation.latitude - rows.latitude);
+        lonDif = Math.abs(userLocation.longitude - rows.longitude);
+        if (latDiv < latWithin && lonDif < lonWithin) {
+          localRooms.push({'roomName' : rows.roomName });
+        }
+      }
+    });
+    console.log("The rooms in database:");
+    console.log(localRooms);
+    Socket.emit('display rooms', localRooms);
+  });
+
+/*
   socket.on('display rooms', function(data) {
     var userLocation = { nameID: data.nameID, latitude : data.latitude, longitude : data.longitude };
     var localRooms = [];
@@ -215,6 +240,7 @@ io.on('connection', function (socket) {
     console.log(localRooms);
     Socket.emit('display rooms', {userRooms, localRooms});
   });
+  */
 
   // When the client emits 'select room', this listens and executes
   socket.on('join room', function(data) {
