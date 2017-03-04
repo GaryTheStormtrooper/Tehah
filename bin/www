@@ -196,12 +196,16 @@ io.on('connection', function (socket) {
 
   // When the client emits 'display local', this listens and executes
   //socket.on('display local', function(data) {
-  socket.on('display local', function() {
+  socket.on('display local', function(data) {
     console.log("display local");
-    /*
-    var userLocation = { nameID: data.nameID, latitude : data.latitude, longitude : data.longitude };
+    //var userLocation = { nameID: data.nameID, latitude : data.latitude, longitude : data.longitude };
+    var userLocation = { nameID: data.nameID};
+    console.log(data.nameID);
     var localRooms = [{ roomName : 'Green', roomName : 'Purple', roomName : 'Orange'}];
     connection.query('SELECT * FROM rooms', function(err, rows, fields) {
+      console.log(err);
+      console.log(rows);
+      console.log(fields);
       if (err) throw err;
       var latDif = 0;
       var lonDif = 0;
@@ -220,7 +224,7 @@ io.on('connection', function (socket) {
     console.log("The rooms in database:");
     console.log(localRooms);
     Socket.emit('display rooms', localRooms);
-    */
+    
   });
 
   socket.on('display rooms', function(data) {
