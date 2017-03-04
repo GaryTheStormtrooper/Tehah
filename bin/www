@@ -171,7 +171,6 @@ var numUsers = 0; // for old chat code
 io.on('connection', function (socket) {
   var addedUser = false;
   console.log("connection.");
-  console.log(socket);
 
   // When the client emits 'create room', this listens and executes
   socket.on('create room', function(data) {
@@ -196,8 +195,10 @@ io.on('connection', function (socket) {
   });
 
   // When the client emits 'display local', this listens and executes
-  socket.on('display local', function(data) {
+  //socket.on('display local', function(data) {
+  socket.on('display local', function() {
     console.log("display local");
+    /*
     var userLocation = { nameID: data.nameID, latitude : data.latitude, longitude : data.longitude };
     var localRooms = [{ roomName : 'Green', roomName : 'Purple', roomName : 'Orange'}];
     connection.query('SELECT * FROM rooms', function(err, rows, fields) {
@@ -219,6 +220,7 @@ io.on('connection', function (socket) {
     console.log("The rooms in database:");
     console.log(localRooms);
     Socket.emit('display rooms', localRooms);
+    */
   });
 
   socket.on('display rooms', function(data) {
