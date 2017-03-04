@@ -109,6 +109,7 @@ function onListening() {
 /**
  * Connect to mySQL database
  */
+/*
 var connection = mysql.createConnection({
   host     : process.env.RDS_HOSTNAME,
   user     : process.env.RDS_USERNAME,
@@ -160,7 +161,7 @@ connection.query('CREATE TABLE users (nameID CHAR(24) NOT NULL, roomName CHAR(28
         console.log('Connected to *users* database.');
     }
 });
-
+*/
 /**
  * Socket.io chat room
  */
@@ -244,17 +245,17 @@ io.on('connection', function (socket) {
     console.log("New message");
     console.log(data);
     // We tell the client to execute 'new message'
-    io.sockets.in(data.room).broadcast.emit('new message', {
+    io.sockets.in(data.room).broadcast.emit('multi new message', {
       username: socket.username,
       message: data
     });
   });
 
   // When the client emits 'typing', we broadcast it to others
-  sockets.on('multi typing', function(data) {
+  socket.on('multi typing', function(data) {
     console.log("Typing");
     console.log(data);
-    io.sockets.in(data.room).broadcast.emit('typing', {
+    io.sockets.in(data.room).broadcast.emit('multi typing', {
       username: socket.username
     });
   });
@@ -262,7 +263,7 @@ io.on('connection', function (socket) {
   // When the user disconnects, perform this
   socket.on('multi disconnect', function(data) {
     socket.leave(data);
-    io.sockets.in(data.room).broadcast.emit('user left', {
+    io.sockets.in(data.room).broadcast.emit('multi user left', {
         username: socket.username
     });
   });
@@ -271,7 +272,7 @@ io.on('connection', function (socket) {
  * Socket.io chat room old code ******************
  */
 
-  var addedUser = false;
+  var numUsers = 0;
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
