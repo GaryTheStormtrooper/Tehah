@@ -165,10 +165,14 @@ connection.query('CREATE TABLE users (nameID CHAR(24) NOT NULL, roomName CHAR(28
 /**
  * Socket.io chat room
  */
+
+var numUsers = 0; // for old chat code
+
 io.on('connection', function (socket) {
   var addedUser = false;
-  console.log(socket.username);
-  
+  console.log("connection.");
+  console.log(socket);
+
   // When the client emits 'create room', this listens and executes
   socket.on('create room', function(data) {
     var chatRoom = { nameID : data.nameID, roomName : data.roomName, latitude : data.latitude, longitude : data.longitude };
@@ -288,8 +292,6 @@ io.on('connection', function (socket) {
 /**
  * Socket.io chat room old code ******************
  */
-
-  var numUsers = 0;
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
