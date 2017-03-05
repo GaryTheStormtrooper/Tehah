@@ -250,13 +250,13 @@ io.on('connection', function (socket) {
         for (var i = 0; i < rows.length; i++) {
           latDif = Math.abs(userLocation.latitude - rows[i].latitude);
           lonDif = Math.abs(userLocation.longitude - rows[i].longitude);
-          //if (latDiv < latWithin && lonDif < lonWithin) {
-            //tempRoom = { roomName : rows[i].roomName };
+          if (latDiv < latWithin && lonDif < lonWithin) {
+            tempRoom = { roomName : rows[i].roomName };
             //localRooms.push(tempRoom);
-            //console.log(rows[i].roomName);
-          //}
+            console.log(rows[i].roomName);
+          }
         }
-        if (!tempName.length) {
+        if (!tempRoom.length) {
           console.log("The rooms in database:");
           console.log(localRooms);
           socket.broadcast.emit('get local', {localRooms});
