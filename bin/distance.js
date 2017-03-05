@@ -1,18 +1,5 @@
 'use strict';
 
-function Distance(d) {
-    var R = 6371e3; // metres
-    var φ1 = d.lat1.toRadians();
-    var φ2 = d.lat2.toRadians();
-    var Δφ = (d.lat2-d.lat1).toRadians();
-    var Δλ = (d.lon2-d.lon1).toRadians();
-    var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-        Math.cos(φ1) * Math.cos(φ2) *
-        Math.sin(Δλ/2) * Math.sin(Δλ/2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    return R * c;
-}
-
 var m1 = 111132.92;
 var m2 = -559.82;
 var m3 = 1.175;
@@ -27,6 +14,8 @@ var degrad1 = 0.01745329251;
 var degrad3 = 0.05235987755;
 var degrad5 = 0.08726646259;
 
+// Returns latitude in degrees of an equivalent distance in "meters"
+// at a particular "latitude".
 function AtLatitude(meters, latitude) {
     var a1 = m2 * Math.cos(latitude * degrad2);
     var a2 = m3 * Math.cos(latitude * degrad4);
@@ -34,6 +23,8 @@ function AtLatitude(meters, latitude) {
     return Math.abs(meters / (m1 + a1 + a2 + a3));
 }
 
+// Returns longitude in degrees of an equivalent distance in "meters"
+// at a particular "latitude".
 function AtLongitude(meters, latitude) {
     var a1 = p1 * Math.cos(latitude * degrad1);
     var a2 = p2 * Math.cos(latitude * degrad3);
@@ -41,4 +32,4 @@ function AtLongitude(meters, latitude) {
     return Math.abs(meters / (a1 + a2 + a3));
 }
 
-module.exports = {Distance, AtLatitude, AtLongitude};
+module.exports = {AtLatitude, AtLongitude};

@@ -199,20 +199,18 @@ io.on('connection', function (socket) {
   var addedUser = false;
   console.log("connection.");
   socket.userID = null;
+  socket.username = null;
   socket.room = null;
 
   // When the client emits 'create room', this listens and executes
   socket.on('create room', function(data) {
+    console.log("create room.");
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
-      console.log("nameID:");
-      console.log (socket.nameID);
+      //socket.username = data.username;
     }
     var chatRoom = { roomName : data.roomName, latitude : data.latitude, longitude : data.longitude };
     var userRoom = { nameID : data.nameID, roomName : data.roomName };
-    console.log("Creating chat room");
-    console.log(data);
-    console.log(chatRoom);
     connection.query('INSERT INTO rooms SET ?', chatRoom, function(err, res) {
       if (err) {
         console.log(err);
@@ -226,8 +224,9 @@ io.on('connection', function (socket) {
     socket.room = data.roomName;
     socket.join(socket.room);
     // Echo globally (all clients) that a person has connected
-    //io.sockets.in(data.room).emit('user joined', {
-    //  username: socket.username
+    io.sockets.in(data.room).emit('user joined', {
+      username: socket.username
+    });
   });
 
   // When the client emits 'display local', this listens and executes
@@ -235,6 +234,7 @@ io.on('connection', function (socket) {
     console.log("display local");
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
+      //socket.username = data.username;
     }
     var userLocation = { latitude : data.latitude, longitude : data.longitude };
     var localRooms = [];
@@ -256,7 +256,6 @@ io.on('connection', function (socket) {
           }
         }
         if (localRooms.length != 0) {
-          console.log("The rooms in database:");
           console.log(localRooms);
           socket.broadcast.emit('get local', {localRooms});
         }
@@ -265,59 +264,58 @@ io.on('connection', function (socket) {
   });
 
   socket.on('display rooms', function(data) {
+    console.log("display room.");
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
+      //socket.username = data.username;
     }
-    console.log("display rooms");
     var userRooms = [];
-    /*
+    var tempRoom;
     connection.query('SELECT * FROM users', function(err, rows, fields) {
       if (err || !row.length) {
         console.log(err);
       } else {
         for (var i = 0; i < rows.length; i++) {
-         if (latDiv < latWithin && lonDif < lonWithin) {
-           localRooms.push({ roomName : rows.roomName });
-         }
+          tempRoom = rows[i].roomName;
+          userRooms.push(tempRoom);
         }
       }
+      if (userRooms.length != 0) {
+        console.log(userRooms);
+        socket.broadcast.emit('get rooms', {userRooms});
+      }
     });
-    console.log("The user rooms in database:");
-    console.log(userRooms);
-    //Socket.emit('display rooms', {userRooms, localRooms});
-    */
   });
 
   // When the client emits 'select room', this listens and executes
   socket.on('join room', function(data) {
-    socket.username = username;
-    console.log("Join room");
-    console.log(data);
-    socket.join(data);
+    console.log("join room.");
+    console.log(data.roomName);
+    socket.join(data.roomName);
+    socket.room = data.roomName;
     // Echo globally (all clients) that a person has connected
-    io.sockets.in(data.room).broadcast.emit('user joined', {
+    io.sockets.in(socket.room).broadcast.emit('user joined', {
       username: socket.username
     });
   });
 
   // When the client emits 'leave room', this listens and executes
-  socket.on('leave room', function(data) {
-    socket.username = username;
-    console.log("Leave room");
-    console.log(data);
-    socket.leave(data);
-    io.sockets.in(data.room).broadcast.emit('user left', {
+  socket.on('leave room', function() {
+    console.log("leave room.");
+    console.log(socket.room);
+    socket.leave(socket.room);
+    io.sockets.in(socket.room).broadcast.emit('user left', {
         username: socket.username
     });
+    socket.room = null;
   });
 
   // When the client emits 'new message', this listens and executes
   socket.on('multi new message', function(data) {
-    socket.username = username;
     console.log("New message");
     console.log(data);
     // We tell the client to execute 'new message'
-    io.sockets.in(data.room).broadcast.emit('multi new message', {
+    io.sockets.in(socket.room).broadcast.emit('new message', {
       username: socket.username,
       message: data
     });
@@ -327,7 +325,7 @@ io.on('connection', function (socket) {
   socket.on('multi typing', function(data) {
     console.log("Typing");
     console.log(data);
-    io.sockets.in(data.room).broadcast.emit('multi typing', {
+    io.sockets.in(socket.room).broadcast.emit('typing', {
       username: socket.username
     });
   });
@@ -335,7 +333,7 @@ io.on('connection', function (socket) {
   // When the user disconnects, perform this
   socket.on('multi disconnect', function(data) {
     socket.leave(data);
-    io.sockets.in(data.room).broadcast.emit('multi user left', {
+    io.sockets.in(socket.room).broadcast.emit('user left', {
         username: socket.username
     });
   });
