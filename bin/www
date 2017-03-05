@@ -172,12 +172,14 @@ io.on('connection', function (socket) {
   var addedUser = false;
   console.log("connection.");
   socket.userID = null;
+  socket.room = null;
 
   // When the client emits 'create room', this listens and executes
   socket.on('create room', function(data) {
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
-      console.log("nameID: ", socket.nameID);
+      console.log("nameID:");
+      console.log (socket.nameID);
     }
     var chatRoom = { roomName : data.roomName, latitude : data.latitude, longitude : data.longitude };
     var userRoom = { nameID : data.nameID, roomName : data.roomName };
@@ -194,7 +196,8 @@ io.on('connection', function (socket) {
         console.log(err);
       }
     })
-    //socket.join(chatRoom.roomName);
+    socket.room = data.roomName;
+    socket.join(socket.room);
     // Echo globally (all clients) that a person has connected
     //io.sockets.in(data.room).emit('user joined', {
     //  username: socket.username
@@ -205,7 +208,8 @@ io.on('connection', function (socket) {
     console.log("display local");
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
-      console.log("nameID: ", socket.nameID);
+      console.log("nameID:");
+      console.log (socket.nameID);
     }
     var userLocation = { latitude : data.latitude, longitude : data.longitude };
     console.log(userLocation);
@@ -215,12 +219,16 @@ io.on('connection', function (socket) {
       if (err || !row.length) {
         console.log(err);
       } else {
+        console.log(rows);
+        /*
         var latDif = 0;
         var lonDif = 0;
-        //var latWithin = deg2met.AtLatitude(inDistance, userLocation.data.latitude);
-        //var lonWithin = det2met.AtLongitude(inDistance, userLocation.data.latitude);
-        console.log("latWithin: ", latWithin);
-        console.log("lonWithin: ", lonWithin);
+        var latWithin = deg2met.AtLatitude(inDistance, userLocation.data.latitude);
+        var lonWithin = det2met.AtLongitude(inDistance, userLocation.data.latitude);
+        console.log("latWithin:");
+        console.log(latWithin);
+        console.log("lonWithin:");
+        console.log(lonWithin);
         for (var i = 0; i < rows.length; i++) {
           latDif = Math.abs(userLocation.latitude - rows.latitude);
           lonDif = Math.abs(userLocation.longitude - rows.longitude);
@@ -231,6 +239,7 @@ io.on('connection', function (socket) {
         console.log("The rooms in database:");
         console.log(localRooms);
         Socket.emit('display rooms', localRooms);
+        */
       }
     });
   });
@@ -238,7 +247,8 @@ io.on('connection', function (socket) {
   socket.on('display rooms', function(data) {
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
-      console.log("nameID: ", socket.nameID);
+      console.log("nameID:");
+      console.log (socket.nameID);
     }
     var userRooms = [];
     connection.query('SELECT * FROM users', function(err, rows, fields) {
