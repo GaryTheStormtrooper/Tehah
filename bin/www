@@ -183,9 +183,11 @@ connection.query('SELECT * FROM rooms', function(err, rows, fields) {
   }
 });
 
-var tempNum = deg2met.AtLatitude(inDistance, 40);
+var tempNumLat = deg2met.AtLatitude(inDistance, 40);
+var tempNumLon = deg2met.AtLongitude(inDistance, 117);
 console.log("Distance check:");
-console.log(tempNum);
+console.log(tempNumLat);
+console.log(tempNumLon);
 
 /**
  * Socket.io chat room
@@ -248,6 +250,8 @@ io.on('connection', function (socket) {
         var lonDif = 0;
         var latWithin = 2;
         var lonWithin = 3;
+        console.log(userLocation.latitude);
+        console.log(userLocation.longitude);
         //var latWithin = deg2met.AtLatitude(inDistance, userLocation.latitude);
         //var lonWithin = det2met.AtLongitude(inDistance, userLocation.latitude);
         console.log("latWithin:");
