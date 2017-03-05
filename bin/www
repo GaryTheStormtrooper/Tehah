@@ -171,9 +171,14 @@ var numUsers = 0; // for old chat code
 io.on('connection', function (socket) {
   var addedUser = false;
   console.log("connection.");
+  socket.userID = null;
 
   // When the client emits 'create room', this listens and executes
   socket.on('create room', function(data) {
+    if (socket.userID == null) {
+      socket.userID = data.userID;
+      console.log("userID: ", socket.userID);
+    }
     var chatRoom = { roomName : data.roomName, latitude : data.latitude, longitude : data.longitude };
     var userRoom = { nameID : data.nameID, roomName : data.roomName };
     console.log("Creating chat room");
@@ -196,9 +201,12 @@ io.on('connection', function (socket) {
   });
 
   // When the client emits 'display local', this listens and executes
-  //socket.on('display local', function(data) {
   socket.on('display local', function(data) {
     console.log("display local");
+    if (socket.userID == null) {
+      socket.userID = data.userID;
+      console.log("userID: ", socket.userID);
+    }
     var userLocation = { latitude : data.latitude, longitude : data.longitude };
     console.log(userLocation);
     var localRooms = [{ roomName : 'Green', roomName : 'Purple', roomName : 'Orange'}];
@@ -209,8 +217,8 @@ io.on('connection', function (socket) {
       } else {
         var latDif = 0;
         var lonDif = 0;
-        var latWithin = deg2met.AtLatitude(inDistance, userLocation.data.latitude);
-        var lonWithin = det2met.AtLongitude(inDistance, userLocation.data.latitude);
+        //var latWithin = deg2met.AtLatitude(inDistance, userLocation.data.latitude);
+        //var lonWithin = det2met.AtLongitude(inDistance, userLocation.data.latitude);
         console.log("latWithin: ", latWithin);
         console.log("lonWithin: ", lonWithin);
         for (var i = 0; i < rows.length; i++) {
@@ -228,13 +236,19 @@ io.on('connection', function (socket) {
   });
 
   socket.on('display rooms', function(data) {
-    var userID = { nameID: data.nameID };
+    if (socket.userID == null) {
+      socket.userID = data.userID;
+      console.log("userID: ", socket.userID);
+    }
     var userRooms = [];
     connection.query('SELECT * FROM users', function(err, rows, fields) {
-      if (err) throw err;
-      for (var i = 0; i < rows.length; i++) {
-        if (latDiv < latWithin && lonDif < lonWithin) {
-          localRooms.push({ roomName : rows.roomName });
+      if (err || !row.length) {
+        console.log(err);
+      } else {
+        for (var i = 0; i < rows.length; i++) {
+         if (latDiv < latWithin && lonDif < lonWithin) {
+           localRooms.push({ roomName : rows.roomName });
+         }
         }
       }
     });
