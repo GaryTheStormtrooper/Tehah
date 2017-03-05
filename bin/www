@@ -15,6 +15,8 @@ var inDistance = 10; // meters
  */
 var fs = require('fs');
 var util = require('util');
+
+
 var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
 var log_stdout = process.stdout;
 
@@ -256,6 +258,10 @@ io.on('connection', function (socket) {
           console.log(localRooms);
           console.log({localRooms});
           socket.broadcast.emit('get local', localRooms);
+          socket.broadcast.emit('user joined', {
+            username: socket.username,
+            numUsers: numUsers
+          });
         }
       }
     });
