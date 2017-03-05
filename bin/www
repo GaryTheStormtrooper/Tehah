@@ -215,12 +215,12 @@ io.on('connection', function (socket) {
     console.log(userLocation);
     var localRooms = [{ roomName : 'Green', roomName : 'Purple', roomName : 'Orange'}];
     //var localRooms = [];
+    /*
     connection.query('SELECT * FROM rooms', function(err, rows, fields) {
       if (err || !row.length) {
         console.log(err);
       } else {
         console.log(rows);
-        /*
         var latDif = 0;
         var lonDif = 0;
         var latWithin = deg2met.AtLatitude(inDistance, userLocation.data.latitude);
@@ -239,9 +239,9 @@ io.on('connection', function (socket) {
         console.log("The rooms in database:");
         console.log(localRooms);
         Socket.emit('display rooms', localRooms);
-        */
       }
     });
+    */
   });
 
   socket.on('display rooms', function(data) {
