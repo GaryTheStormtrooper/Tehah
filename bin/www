@@ -184,7 +184,7 @@ connection.query('SELECT * FROM rooms', function(err, rows, fields) {
 });
 
 var tempNumLat = deg2met.AtLatitude(inDistance, 40);
-var tempNumLon = deg2met.AtLongitude(inDistance, 117);
+var tempNumLon = deg2met.AtLongitude(inDistance, 40);
 console.log("Distance check:");
 console.log(tempNumLat);
 console.log(tempNumLon);
@@ -252,8 +252,8 @@ io.on('connection', function (socket) {
         var lonWithin = 3;
         console.log(userLocation.latitude);
         console.log(userLocation.longitude);
-        //var latWithin = deg2met.AtLatitude(inDistance, userLocation.latitude);
-        //var lonWithin = det2met.AtLongitude(inDistance, userLocation.latitude);
+        var latWithin = deg2met.AtLatitude(inDistance, userLocation.latitude);
+        var lonWithin = det2met.AtLongitude(inDistance, userLocation.latitude);
         console.log("latWithin:");
         console.log(latWithin);
         console.log("lonWithin:");
