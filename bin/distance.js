@@ -31,14 +31,14 @@ function AtLatitude(meters, latitude) {
     var a1 = m2 * Math.cos(latitude * degrad2);
     var a2 = m3 * Math.cos(latitude * degrad4);
     var a3 = m4 * Math.cos(latitude * degrad6);
-    return meters / (m1 + a1 + a2 + a3);
+    return Math.abs(meters / (m1 + a1 + a2 + a3));
 }
 
 function AtLongitude(meters, latitude) {
     var a1 = p1 * Math.cos(latitude * degrad1);
     var a2 = p2 * Math.cos(latitude * degrad3);
     var a3 = p3 * Math.cos(latitude * degrad5);
-    return meters / (a1 + a2 + a3);
+    return Math.abs(meters / (a1 + a2 + a3));
 }
 
 module.exports = {Distance, AtLatitude, AtLongitude};
