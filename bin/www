@@ -231,11 +231,12 @@ io.on('connection', function (socket) {
       if (err || !rows.length) {
         console.log(err);
       } else {
+        console.log("rooms: rows");
         console.log(rows);
         var latDif = 0;
         var lonDif = 0;
-        var latWithin = deg2met.AtLatitude(inDistance, userLocation.latitude);
-        var lonWithin = det2met.AtLongitude(inDistance, userLocation.latitude);
+        //var latWithin = deg2met.AtLatitude(inDistance, userLocation.latitude);
+        //var lonWithin = det2met.AtLongitude(inDistance, userLocation.latitude);
         console.log("latWithin:");
         console.log(latWithin);
         console.log("lonWithin:");
