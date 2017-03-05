@@ -179,12 +179,13 @@ connection.query('SELECT * FROM rooms', function(err, rows, fields) {
   if (err || !rows.length) {
     console.log(err);
   } else {
-  console.log(rows);
-}
+    console.log(rows);
+  }
+});
+
 /**
  * Socket.io chat room
  */
-
 var numUsers = 0; // for old chat code
 
 io.on('connection', function (socket) {
