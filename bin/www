@@ -203,6 +203,7 @@ io.on('connection', function (socket) {
     //var userLocation = { nameID: data.nameID, latitude : data.latitude, longitude : data.longitude };
     var userLocation = { nameID: data.nameID};
     console.log(data.nameID);
+    /*
     var localRooms = [{ roomName : 'Green', roomName : 'Purple', roomName : 'Orange'}];
     connection.query('SELECT * FROM rooms', function(err, rows, fields) {
       console.log(err);
@@ -226,6 +227,7 @@ io.on('connection', function (socket) {
     console.log("The rooms in database:");
     console.log(localRooms);
     Socket.emit('display rooms', localRooms);
+    */
   });
 
   socket.on('display rooms', function(data) {
