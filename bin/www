@@ -254,11 +254,11 @@ io.on('connection', function (socket) {
           console.log(lonWithin);
           console.log(latDif);
           console.log(lonDif);
-          //if (latDiv < latWithin && lonDif < lonWithin) {
-           // tempRoom = { roomName : rows[i].roomName };
-            //localRooms.push(tempRoom);
-            //console.log(rows[i].roomName);
-          //}
+          if ((latDif < latWithin) && (lonDif < lonWithin)) {
+            tempRoom = { roomName : rows[i].roomName };
+            localRooms.push(tempRoom);
+            Console.log(rows[i].roomName);
+          }
         }
         //if (false) {
          // console.log("The rooms in database:");
