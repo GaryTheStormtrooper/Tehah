@@ -3,7 +3,6 @@
 /**
  * Module dependencies.
  */
-
 var app = require('../app');
 var debug = require('debug')('tehah:server');
 var http = require('http');
@@ -109,7 +108,6 @@ function onListening() {
 /**
  * Connect to mySQL database
  */
-
 var connection = mysql.createConnection({
   host     : process.env.RDS_HOSTNAME,
   user     : process.env.RDS_USERNAME,
@@ -133,7 +131,6 @@ connection.query('DROP DATABASE tehahdb', function(err, result) {
     } else {
         console.log('Database tehahdb deleted.');
     }
-
 });
 
 // Creates "tehahdb" database
@@ -257,6 +254,7 @@ io.on('connection', function (socket) {
         }
         if (localRooms.length != 0) {
           console.log(localRooms);
+          console.log({localRooms});
           socket.broadcast.emit('get local', {localRooms});
         }
       }
