@@ -259,8 +259,8 @@ io.on('connection', function (socket) {
         console.log(rows);
         console.log(userLocation.latitude);
         console.log(userLocation.longitude);
-        latWithin = deg2met.AtLatitude(inDistance, userLocation.latitude);
-        lonWithin = det2met.AtLongitude(inDistance, userLocation.latitude);
+        //latWithin = deg2met.AtLatitude(inDistance, userLocation.latitude);
+        //lonWithin = det2met.AtLongitude(inDistance, userLocation.latitude);
         console.log("latWithin:");
         console.log(latWithin);
         console.log("lonWithin:");
