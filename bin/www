@@ -242,10 +242,6 @@ io.on('connection', function (socket) {
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
     }
-    var latDif = 0;
-    var lonDif = 0;
-    var latWithin = 0.0;
-    var lonWithin = 0.0;
     console.log("data.nameID:");
     console.log(data.nameID);
     var userLocation = { latitude : data.latitude, longitude : data.longitude };
@@ -259,8 +255,11 @@ io.on('connection', function (socket) {
         console.log(rows);
         console.log(userLocation.latitude);
         console.log(userLocation.longitude);
-        //latWithin = deg2met.AtLatitude(inDistance, userLocation.latitude);
-        //lonWithin = det2met.AtLongitude(inDistance, userLocation.latitude);
+        console.log(inDistance);
+        var latDif = 0;
+        var lonDif = 0;
+        //var latWithin = deg2met.AtLatitude(inDistance, userLocation.latitude);
+        //var lonWithin = det2met.AtLongitude(inDistance, userLocation.latitude);
         console.log("latWithin:");
         console.log(latWithin);
         console.log("lonWithin:");
