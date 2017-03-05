@@ -242,14 +242,13 @@ io.on('connection', function (socket) {
       if (err || !rows.length) {
         console.log(err);
       } else {
-        var latDif = 0;
-        var lonDif = 0;
+        var latDif = 0.0;
+        var lonDif = 0.0;
         var latWithin = deg2met.AtLatitude(inDistance, userLocation.latitude);
         var lonWithin = deg2met.AtLongitude(inDistance, userLocation.latitude);
-        console.log(rows.length);
         for (var i = 0; i < rows.length; i++) {
-          latDif = Math.abs(userLocation.latitude - rows.latitude);
-          lonDif = Math.abs(userLocation.longitude - rows.longitude);
+          latDif = Math.abs(userLocation.latitude - rows[i].latitude);
+          lonDif = Math.abs(userLocation.longitude - rows[i].longitude);
           console.log(latDif);
           console.log(lonDif);
           /*
