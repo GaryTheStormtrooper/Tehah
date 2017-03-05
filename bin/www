@@ -251,16 +251,16 @@ io.on('connection', function (socket) {
           latDif = Math.abs(userLocation.latitude - rows[i].latitude);
           lonDif = Math.abs(userLocation.longitude - rows[i].longitude);
           if (latDiv < latWithin && lonDif < lonWithin) {
-            tempRoom = { roomName : rows[i].roomName };
+           // tempRoom = { roomName : rows[i].roomName };
             //localRooms.push(tempRoom);
-            console.log(rows[i].roomName);
+            //console.log(rows[i].roomName);
           }
         }
-        if (false) {
-          console.log("The rooms in database:");
-          console.log(localRooms);
-          socket.broadcast.emit('get local', {localRooms});
-        }
+        //if (false) {
+         // console.log("The rooms in database:");
+         // console.log(localRooms);
+         // socket.broadcast.emit('get local', {localRooms});
+        //}
       }
     });
   });
