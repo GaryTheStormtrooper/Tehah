@@ -240,7 +240,7 @@ io.on('connection', function (socket) {
       if (err || !rows.length) {
         console.log(err);
       } else {
-        /*
+        
         console.log("rooms: rows");
         console.log(rows);
         var latDif = 0;
@@ -251,6 +251,7 @@ io.on('connection', function (socket) {
         console.log(latWithin);
         console.log("lonWithin:");
         console.log(lonWithin);
+        /*
         for (var i = 0; i < rows.length; i++) {
           latDif = Math.abs(userLocation.latitude - rows.latitude);
           lonDif = Math.abs(userLocation.longitude - rows.longitude);
