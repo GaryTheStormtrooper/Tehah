@@ -255,12 +255,12 @@ io.on('connection', function (socket) {
           console.log(latDif);
           console.log(lonDif);
           if ((latDif < latWithin) && (lonDif < lonWithin)) {
-            tempRoom = { roomName : rows[i].roomName };
-            localRooms.push(tempRoom);
+            //tempRoom = { roomName : rows[i].roomName };
+            //localRooms.push(tempRoom);
             Console.log(rows[i].roomName);
           }
         }
-        //if (false) {
+        //if (!localRooms.length) {
          // console.log("The rooms in database:");
          // console.log(localRooms);
          // socket.broadcast.emit('get local', {localRooms});
