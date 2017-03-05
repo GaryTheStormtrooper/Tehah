@@ -245,6 +245,8 @@ io.on('connection', function (socket) {
         var lonDif = 0.0;
         var tempRoom;
         var testArray = ["RedCat", "BlueDog"];
+        var testString = "OrangeBall";
+        var testNum = 47;
         var latWithin = deg2met.AtLatitude(inDistance, userLocation.latitude);
         var lonWithin = deg2met.AtLongitude(inDistance, userLocation.latitude);
         for (var i = 0; i < rows.length; i++) {
@@ -259,7 +261,7 @@ io.on('connection', function (socket) {
           console.log(localRooms);
           console.log({localRooms});
           //socket.broadcast.emit('get local', localRooms);
-          socket.broadcast.emit('get local', testArray);
+          socket.broadcast.emit('get local', testNum);
         }
       }
     });
