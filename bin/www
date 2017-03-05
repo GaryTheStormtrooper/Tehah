@@ -189,11 +189,10 @@ io.on('connection', function (socket) {
         console.log(err);
       }
     })
-    socket.join(chatRoom.roomName);
+    //socket.join(chatRoom.roomName);
     // Echo globally (all clients) that a person has connected
     //io.sockets.in(data.room).emit('user joined', {
     //  username: socket.username
-    });
   });
 
   // When the client emits 'display local', this listens and executes
