@@ -172,7 +172,12 @@ connection.query('INSERT INTO rooms SET ?', tempRoom, function(err, res) {
     console.log(err);
   }
 });
-
+connection.query('SELECT * FROM rooms', function(err, rows, fields) {
+  if (err || !rows.length) {
+    console.log(err);
+  } else {
+  console.log(rows);
+}
 /**
  * Socket.io chat room
  */
@@ -231,17 +236,17 @@ io.on('connection', function (socket) {
       if (err || !rows.length) {
         console.log(err);
       } else {
+        /*
         console.log("rooms: rows");
         console.log(rows);
         var latDif = 0;
         var lonDif = 0;
-        //var latWithin = deg2met.AtLatitude(inDistance, userLocation.latitude);
-        //var lonWithin = det2met.AtLongitude(inDistance, userLocation.latitude);
+        var latWithin = deg2met.AtLatitude(inDistance, userLocation.latitude);
+        var lonWithin = det2met.AtLongitude(inDistance, userLocation.latitude);
         console.log("latWithin:");
         console.log(latWithin);
         console.log("lonWithin:");
         console.log(lonWithin);
-        /*
         for (var i = 0; i < rows.length; i++) {
           latDif = Math.abs(userLocation.latitude - rows.latitude);
           lonDif = Math.abs(userLocation.longitude - rows.longitude);
