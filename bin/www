@@ -262,7 +262,7 @@ io.on('connection', function (socket) {
           console.log({localRooms});
           //socket.broadcast.emit('get local', localRooms);
           socket.broadcast.emit('get local', {
-            roomName: testNum
+            numUsers: numUsers
           });
         }
       }
