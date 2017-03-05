@@ -257,7 +257,7 @@ io.on('connection', function (socket) {
           if ((latDif < latWithin) && (lonDif < lonWithin)) {
             //tempRoom = { roomName : rows[i].roomName };
             //localRooms.push(tempRoom);
-            Console.log(rows[i].roomName);
+            console.log(rows[i].roomName);
           }
         }
         //if (!localRooms.length) {
