@@ -175,9 +175,9 @@ io.on('connection', function (socket) {
 
   // When the client emits 'create room', this listens and executes
   socket.on('create room', function(data) {
-    if (socket.userID == null) {
-      socket.userID = data.userID;
-      console.log("userID: ", socket.userID);
+    if (socket.nameID == null) {
+      socket.nameID = data.nameID;
+      console.log("nameID: ", socket.nameID);
     }
     var chatRoom = { roomName : data.roomName, latitude : data.latitude, longitude : data.longitude };
     var userRoom = { nameID : data.nameID, roomName : data.roomName };
@@ -203,9 +203,9 @@ io.on('connection', function (socket) {
   // When the client emits 'display local', this listens and executes
   socket.on('display local', function(data) {
     console.log("display local");
-    if (socket.userID == null) {
-      socket.userID = data.userID;
-      console.log("userID: ", socket.userID);
+    if (socket.nameID == null) {
+      socket.nameID = data.nameID;
+      console.log("nameID: ", socket.nameID);
     }
     var userLocation = { latitude : data.latitude, longitude : data.longitude };
     console.log(userLocation);
@@ -236,9 +236,9 @@ io.on('connection', function (socket) {
   });
 
   socket.on('display rooms', function(data) {
-    if (socket.userID == null) {
-      socket.userID = data.userID;
-      console.log("userID: ", socket.userID);
+    if (socket.nameID == null) {
+      socket.nameID = data.nameID;
+      console.log("nameID: ", socket.nameID);
     }
     var userRooms = [];
     connection.query('SELECT * FROM users', function(err, rows, fields) {
