@@ -231,6 +231,10 @@ io.on('connection', function (socket) {
   // When the client emits 'display local', this listens and executes
   socket.on('display local', function(data) {
     console.log("display local");
+    socket.broadcast.emit('get local', {
+      numUsers: numUsers
+    });
+    /*
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
       //socket.username = data.username;
@@ -261,12 +265,10 @@ io.on('connection', function (socket) {
           console.log(localRooms);
           console.log({localRooms});
           //socket.broadcast.emit('get local', localRooms);
-          socket.broadcast.emit('get local', {
-            numUsers: numUsers
-          });
         }
       }
     });
+    */
   });
 
   socket.on('display rooms', function(data) {
