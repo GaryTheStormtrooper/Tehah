@@ -256,11 +256,11 @@ io.on('connection', function (socket) {
             console.log(rows[i].roomName);
           }
         }
-        if (!tempName.length) {
-          console.log("The rooms in database:");
-          console.log(localRooms);
-          socket.broadcast.emit('get local', {localRooms});
-        }
+        //if (!tempName.length) {
+        //  console.log("The rooms in database:");
+        //  console.log(localRooms);
+        //  socket.broadcast.emit('get local', {localRooms});
+        //}
       }
     });
   });
