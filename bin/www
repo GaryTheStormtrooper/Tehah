@@ -257,10 +257,10 @@ io.on('connection', function (socket) {
         if (localRooms.length != 0) {
           console.log(localRooms);
           console.log({localRooms});
-          //socket.broadcast.emit('get local', localRooms);
-          socket.emit('get local', {
-            numUsers: numUsers
-          });
+          socket.broadcast.emit('get local', localRooms);
+          //socket.emit('get local', {
+          //  numUsers: numUsers
+          //});
         }
       }
     });
