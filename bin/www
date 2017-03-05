@@ -179,11 +179,12 @@ io.on('connection', function (socket) {
     console.log("Creating chat room");
     console.log(data);
     console.log(chatRoom);
-    /*
     connection.query('INSERT INTO rooms SET ?', chatRoom, function(err, res) {
+      console.log(err);
       if (err) throw err;
       console.log('Last insert ID:', res.insertID);
     })
+    /*
     connection.query('INSERT INTO users SET ?', userRoom, function(err, res) {
       if (err) throw err;
       console.log('Last insert ID:', res.insertID);
