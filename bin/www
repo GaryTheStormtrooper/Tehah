@@ -231,6 +231,10 @@ io.on('connection', function (socket) {
   // When the client emits 'display local', this listens and executes
   socket.on('display local', function(data) {
     console.log("display local");
+    socket.emit('login', {
+      numUsers: numUsers
+    });
+    /*
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
       //socket.username = data.username;
@@ -265,6 +269,7 @@ io.on('connection', function (socket) {
         }
       }
     });
+    */
   });
 
   socket.on('display rooms', function(data) {
