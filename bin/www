@@ -255,7 +255,7 @@ io.on('connection', function (socket) {
         if (localRooms.length != 0) {
           console.log(localRooms);
           console.log({localRooms});
-          socket.broadcast.emit('get local', {localRooms});
+          socket.broadcast.emit('get local', localRooms);
         }
       }
     });
@@ -280,7 +280,7 @@ io.on('connection', function (socket) {
       }
       if (userRooms.length != 0) {
         console.log(userRooms);
-        socket.broadcast.emit('get rooms', {userRooms});
+        socket.broadcast.emit('get rooms', userRooms);
       }
     });
   });
@@ -351,6 +351,7 @@ io.on('connection', function (socket) {
 
   // when the client emits 'add user', this listens and executes
   socket.on('add user', function (username) {
+    console.log("add user");
     if (addedUser) return;
 
     // we store the username in the socket session for this client
