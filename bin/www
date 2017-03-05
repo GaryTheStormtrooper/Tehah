@@ -208,17 +208,21 @@ io.on('connection', function (socket) {
     console.log("display local");
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
-      console.log("nameID:");
+      console.log("socket.nameID:");
       console.log (socket.nameID);
     }
+    console.log("data.nameID:");
+    console.log(data.nameID);
     var userLocation = { latitude : data.latitude, longitude : data.longitude };
     console.log(userLocation);
     var localRooms = [{ roomName : 'Green', roomName : 'Purple', roomName : 'Orange'}];
     //var localRooms = [];
+    /*
     connection.query('SELECT * FROM rooms', function(err, rows, fields) {
       if (err || !rows.length) {
         console.log(err);
       } else {
+        
         console.log(rows);
         var latDif = 0;
         var lonDif = 0;
@@ -240,6 +244,7 @@ io.on('connection', function (socket) {
         Socket.emit('display rooms', localRooms);
       }
     });
+    */
   });
 
   socket.on('display rooms', function(data) {
