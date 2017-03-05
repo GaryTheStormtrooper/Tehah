@@ -127,7 +127,14 @@ connection.connect(function(err) {
 });
 
 // Erases "tehahdb" database
-connection.query('DROP DATABASE tehahdb');
+connection.query('DROP DATABASE tehahdb', function(err, result) {
+    if(err) {
+        console.error('Database tehahdb failed to be deleted.');
+    } else {
+        console.log('Database tehahdb deleted.');
+    }
+
+});
 
 // Creates "tehahdb" database
 connection.query('CREATE DATABASE tehahdb', function(err, result) {
@@ -235,6 +242,10 @@ io.on('connection', function (socket) {
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
     }
+    var latDif = 0;
+    var lonDif = 0;
+    var latWithin = 0.0;
+    var lonWithin = 0.0;
     console.log("data.nameID:");
     console.log(data.nameID);
     var userLocation = { latitude : data.latitude, longitude : data.longitude };
@@ -246,14 +257,10 @@ io.on('connection', function (socket) {
       } else {
         console.log("rooms: rows");
         console.log(rows);
-        var latDif = 0;
-        var lonDif = 0;
-        //var latWithin = 2;
-       // var lonWithin = 3;
         console.log(userLocation.latitude);
         console.log(userLocation.longitude);
-        var latWithin = deg2met.AtLatitude(inDistance, userLocation.latitude);
-        var lonWithin = det2met.AtLongitude(inDistance, userLocation.latitude);
+        latWithin = deg2met.AtLatitude(inDistance, userLocation.latitude);
+        lonWithin = det2met.AtLongitude(inDistance, userLocation.latitude);
         console.log("latWithin:");
         console.log(latWithin);
         console.log("lonWithin:");
