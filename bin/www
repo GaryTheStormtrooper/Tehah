@@ -180,9 +180,12 @@ connection.query('SELECT * FROM rooms', function(err, rows, fields) {
     console.log(err);
   } else {
     console.log("Populated *rooms*");
-    console.log(rows);
   }
 });
+
+var tempNum = deg2met.AtLatitude(inDistance, 40);
+console.log("Distance check:");
+console.log(tempNum);
 
 /**
  * Socket.io chat room
@@ -229,8 +232,6 @@ io.on('connection', function (socket) {
     console.log("display local");
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
-      console.log("socket.nameID:");
-      console.log (socket.nameID);
     }
     console.log("data.nameID:");
     console.log(data.nameID);
@@ -241,7 +242,6 @@ io.on('connection', function (socket) {
       if (err || !rows.length) {
         console.log(err);
       } else {
-        /*
         console.log("rooms: rows");
         console.log(rows);
         var latDif = 0;
@@ -252,6 +252,7 @@ io.on('connection', function (socket) {
         console.log(latWithin);
         console.log("lonWithin:");
         console.log(lonWithin);
+        /*
         for (var i = 0; i < rows.length; i++) {
           latDif = Math.abs(userLocation.latitude - rows.latitude);
           lonDif = Math.abs(userLocation.longitude - rows.longitude);
