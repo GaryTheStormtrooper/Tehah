@@ -215,9 +215,8 @@ io.on('connection', function (socket) {
     console.log(userLocation);
     var localRooms = [{ roomName : 'Green', roomName : 'Purple', roomName : 'Orange'}];
     //var localRooms = [];
-    /*
     connection.query('SELECT * FROM rooms', function(err, rows, fields) {
-      if (err || !row.length) {
+      if (err || !rows.length) {
         console.log(err);
       } else {
         console.log(rows);
@@ -241,7 +240,6 @@ io.on('connection', function (socket) {
         Socket.emit('display rooms', localRooms);
       }
     });
-    */
   });
 
   socket.on('display rooms', function(data) {
