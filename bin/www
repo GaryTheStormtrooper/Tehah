@@ -259,7 +259,7 @@ io.on('connection', function (socket) {
         if (!tempName.length) {
           console.log("The rooms in database:");
           console.log(localRooms);
-          socket.broadcast.emit('get local', localRooms);
+          socket.broadcast.emit('get local', {localRooms});
         }
       }
     });
