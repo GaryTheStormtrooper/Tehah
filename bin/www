@@ -231,7 +231,7 @@ io.on('connection', function (socket) {
   // When the client emits 'display local', this listens and executes
   socket.on('display local', function(data) {
     console.log("display local");
-    socket.emit('login', {
+    socket.emit('get local', {
       numUsers: numUsers
     });
     /*
