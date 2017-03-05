@@ -252,14 +252,16 @@ io.on('connection', function (socket) {
           lonDif = Math.abs(userLocation.longitude - rows.longitude);
           console.log(latDif);
           console.log(lonDif);
+          /*
           if (latDiv < latWithin && lonDif < lonWithin) {
-            //localRooms.push({ roomName : rows.roomName });
+            localRooms.push({ roomName : rows.roomName });
             console.log("add here");
           }
+          */
         }
         console.log("The rooms in database:");
         console.log(localRooms);
-        Socket.emit('display rooms', localRooms);
+        //Socket.emit('display rooms', localRooms);
       }
     });
   });
