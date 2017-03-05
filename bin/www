@@ -256,7 +256,7 @@ io.on('connection', function (socket) {
             console.log(rows[i].roomName);
           }
         }
-        if (!tempRoom.length) {
+        if (false) {
           console.log("The rooms in database:");
           console.log(localRooms);
           socket.broadcast.emit('get local', {localRooms});
