@@ -163,11 +163,14 @@ connection.query('CREATE TABLE users (nameID CHAR(24) NOT NULL, roomName CHAR(28
 });
 
 // temp code to populate *rooms*
-var tempRoom = [
-  { roomName : "GreenMonster", latitude : "35.00001", longitude : "117.00001" },
-  { roomName : "PurpleDragon", latitude : "34.99999", longitude : "116.99999" }
-];
-connection.query('INSERT INTO rooms SET ?', tempRoom, function(err, res) {
+var tempRoom1 = { roomName : "GreenMonster", latitude : "35.00001", longitude : "117.00001" };
+var tempRoom2 = { roomName : "PurpleDragon", latitude : "34.99999", longitude : "116.99999" };
+connection.query('INSERT INTO rooms SET ?', tempRoom1, function(err, res) {
+  if (err) {
+    console.log(err);
+  }
+});
+connection.query('INSERT INTO rooms SET ?', tempRoom2, function(err, res) {
   if (err) {
     console.log(err);
   }
