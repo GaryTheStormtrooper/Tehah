@@ -264,7 +264,6 @@ io.on('connection', function (socket) {
         console.log(latWithin);
         console.log("lonWithin:");
         console.log(lonWithin);
-        /*
         for (var i = 0; i < rows.length; i++) {
           latDif = Math.abs(userLocation.latitude - rows.latitude);
           lonDif = Math.abs(userLocation.longitude - rows.longitude);
@@ -275,7 +274,6 @@ io.on('connection', function (socket) {
         console.log("The rooms in database:");
         console.log(localRooms);
         Socket.emit('display rooms', localRooms);
-        */
       }
     });
   });
