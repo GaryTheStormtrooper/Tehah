@@ -174,7 +174,7 @@ io.on('connection', function (socket) {
 
   // When the client emits 'create room', this listens and executes
   socket.on('create room', function(data) {
-    var chatRoom = { nameID : data.nameID, roomName : data.roomName, latitude : data.latitude, longitude : data.longitude };
+    var chatRoom = { roomName : data.roomName, latitude : data.latitude, longitude : data.longitude };
     var userRoom = { nameID : data.nameID, roomName : data.roomName };
     console.log("Creating chat room");
     console.log(data);
