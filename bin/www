@@ -180,32 +180,26 @@ io.on('connection', function (socket) {
     console.log(data);
     console.log(chatRoom);
     connection.query('INSERT INTO rooms SET ?', chatRoom, function(err, res) {
-      console.log(err);
       if (err) throw err;
-      console.log('Last insert ID:', res.insertID);
     })
-    /*
     connection.query('INSERT INTO users SET ?', userRoom, function(err, res) {
       if (err) throw err;
-      console.log('Last insert ID:', res.insertID);
     })
     socket.join(chatRoom.roomName);
     // Echo globally (all clients) that a person has connected
     io.sockets.in(data.room).broadcast.emit('user joined', {
       username: socket.username
     });
-    */
   });
 
   // When the client emits 'display local', this listens and executes
   //socket.on('display local', function(data) {
   socket.on('display local', function(data) {
     console.log("display local");
-    //var userLocation = { nameID: data.nameID, latitude : data.latitude, longitude : data.longitude };
-    var userLocation = { nameID: data.nameID};
-    console.log(data.nameID);
-    /*
+    var userLocation = { latitude : data.latitude, longitude : data.longitude };
+    console.log(userLocation);
     var localRooms = [{ roomName : 'Green', roomName : 'Purple', roomName : 'Orange'}];
+    //var localRooms = [];
     connection.query('SELECT * FROM rooms', function(err, rows, fields) {
       console.log(err);
       console.log(rows);
@@ -228,7 +222,6 @@ io.on('connection', function (socket) {
     console.log("The rooms in database:");
     console.log(localRooms);
     Socket.emit('display rooms', localRooms);
-    */
   });
 
   socket.on('display rooms', function(data) {
