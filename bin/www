@@ -244,20 +244,23 @@ io.on('connection', function (socket) {
       } else {
         var latDif = 0.0;
         var lonDif = 0.0;
-        var tempName;
+        var tempRoom;
         var latWithin = deg2met.AtLatitude(inDistance, userLocation.latitude);
         var lonWithin = deg2met.AtLongitude(inDistance, userLocation.latitude);
         for (var i = 0; i < rows.length; i++) {
           latDif = Math.abs(userLocation.latitude - rows[i].latitude);
           lonDif = Math.abs(userLocation.longitude - rows[i].longitude);
           if (latDiv < latWithin && lonDif < lonWithin) {
-            tempName = rows[i].roomName;
-            localRooms.push({ roomName : tempName });
+            tempRoom = { roomName : rows[i].roomName };
+            localRooms.push(tempRoom);
+            console.log(rows[i].roomName);
           }
         }
-        console.log("The rooms in database:");
-        console.log(localRooms);
-        socket.broadcast.emit('get local', localRooms);
+        if (!tempName.length) {
+          console.log("The rooms in database:");
+          console.log(localRooms);
+          socket.broadcast.emit('get local', localRooms);
+        }
       }
     });
   });
