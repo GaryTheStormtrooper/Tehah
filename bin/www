@@ -234,6 +234,7 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('get local', {
       numUsers: numUsers
     });
+    console.log(numUsers);
     /*
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
