@@ -255,9 +255,7 @@ io.on('connection', function (socket) {
             localRooms.push(tempRoom);
           }
         }
-        console.log(localRooms.length);
-        console.log(localRooms);
-        if (!localRooms.length) {
+        if (localRooms.length != 0) {
           console.log("The rooms in database:");
           console.log(localRooms);
           socket.broadcast.emit('get local', {localRooms});
