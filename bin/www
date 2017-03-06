@@ -229,7 +229,6 @@ io.on('connection', function (socket) {
   // When the client emits 'display local', this listens and executes
   socket.on('display local', function(data) {
     console.log("display local");
-    console.log(tempRoom);
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
       //socket.username = data.username;
