@@ -167,14 +167,20 @@ connection.query('CREATE TABLE users (nameID CHAR(24) NOT NULL, roomName CHAR(28
 });
 
 // temp code to populate *rooms*
-var tempRoom1 = { roomName : "GreenMonster", latitude : "35.00001", longitude : "117.00001" };
-var tempRoom2 = { roomName : "PurpleDragon", latitude : "34.99999", longitude : "116.99999" };
+var tempRoom1 = { roomName : "GreenMonster", latitude : "34.0578432", longitude : "-117.8211132" };
+var tempRoom2 = { roomName : "PurpleDragon", latitude : "34.0578321", longitude : "-117.8211845" };
+var tempRoom3 = { roomName : "OrangeRobot", latitude : "34.0578254", longitude : "-117.8211371" };
 connection.query('INSERT INTO rooms SET ?', tempRoom1, function(err, res) {
   if (err) {
     console.log(err);
   }
 });
 connection.query('INSERT INTO rooms SET ?', tempRoom2, function(err, res) {
+  if (err) {
+    console.log(err);
+  }
+});
+connection.query('INSERT INTO rooms SET ?', tempRoom3, function(err, res) {
   if (err) {
     console.log(err);
   }
@@ -204,7 +210,7 @@ io.on('connection', function (socket) {
     console.log("create room.");
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
-      //socket.username = data.username;
+      socket.username = data.username;
     }
     var chatRoom = { roomName : data.roomName, latitude : data.latitude, longitude : data.longitude };
     var userRoom = { nameID : data.nameID, roomName : data.roomName };
@@ -231,7 +237,7 @@ io.on('connection', function (socket) {
     console.log("display local");
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
-      //socket.username = data.username;
+      socket.username = data.username;
     }
     var userLocation = { latitude : data.latitude, longitude : data.longitude };
     var localRooms = [];
@@ -255,7 +261,6 @@ io.on('connection', function (socket) {
             roomName: localRooms
           })
         }
-        console.log(localRooms);
       }
     });
   });
@@ -264,7 +269,7 @@ io.on('connection', function (socket) {
     console.log("display room.");
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
-      //socket.username = data.username;
+      socket.username = data.username;
     }
     var userRooms = [];
     var tempRoom;
