@@ -166,7 +166,7 @@ connection.query('CREATE TABLE users (nameID CHAR(24) NOT NULL, roomName CHAR(28
     }
 });
 
-/* 
+/
 // temp code to populate *rooms*
 var tempRoom1 = { roomName : "GreenMonster", latitude : "34.0578432", longitude : "-117.8211132" };
 var tempRoom2 = { roomName : "PurpleDragon", latitude : "34.0578321", longitude : "-117.8211845" };
@@ -199,7 +199,6 @@ connection.query('SELECT * FROM rooms', function(err, rows, fields) {
     console.log("Populated *rooms*");
   }
 });
-*/
 
 /**
  * Socket.io chat room
