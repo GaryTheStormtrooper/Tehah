@@ -242,7 +242,7 @@ io.on('connection', function (socket) {
         console.log("Joined:");
         console.log(socket.room);
         // Echo globally (all clients) that a person has connected
-        io.sockets.in(data.room).emit('user joined', {
+        socket.broadcast.to(data.room).emit('user joined', {
           username: socket.username
         })
       }
@@ -319,7 +319,7 @@ io.on('connection', function (socket) {
     socket.emit('join up', {
       roomName: data.roomName
     })
-    io.sockets.in(socket.room).emit('user joined', {
+    socket.broadcast.to(socket.room).emit('user joined', {
       username: socket.username
     });
   });
@@ -329,7 +329,7 @@ io.on('connection', function (socket) {
     console.log("leave room.");
     console.log(socket.room);
     socket.leave(socket.room);
-    io.sockets.in(socket.room).emit('user left', {
+    socket.broadcast.to(socket.room).emit('user left', {
         username: socket.username
     });
     socket.room = null;
@@ -340,7 +340,7 @@ io.on('connection', function (socket) {
     console.log("New message");
     console.log(data);
     // We tell the client to execute 'new message'
-    io.sockets.in(socket.room).emit('new message', {
+    socket.broadcast.to(socket.room).emit('new message', {
       username: socket.username,
       message: data
     });
@@ -350,7 +350,7 @@ io.on('connection', function (socket) {
   socket.on('typing', function(data) {
     console.log("Typing");
     console.log(data);
-    io.sockets.in(socket.room).emit('typing', {
+    socket.broadcast.to(socket.room).emit('typing', {
       username: socket.username
     });
   });
@@ -358,7 +358,7 @@ io.on('connection', function (socket) {
   // When the user disconnects, perform this
   socket.on('disconnect', function(data) {
     socket.leave(data);
-    io.sockets.in(socket.room).emit('user left', {
+    socket.broadcast.to(socket.room).emit('user left', {
         username: socket.username
     });
   });
