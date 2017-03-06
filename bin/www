@@ -238,14 +238,18 @@ io.on('connection', function (socket) {
               console.log(err);
             }
           })
+        } else {
+          // Echo globally (all clients) that a person has connected
+          socket.broadcast.to(data.room).emit('user joined', {
+            username: socket.username
+          })
         }
         socket.room = data.roomName;
         socket.join(socket.room);
         console.log("Joined:");
         console.log(socket.room);
-        // Echo globally (all clients) that a person has connected
-        socket.broadcast.to(data.room).emit('user joined', {
-          username: socket.username
+        socket.emit('join up', {
+          roomName: data.roomName
         })
       }
     });
