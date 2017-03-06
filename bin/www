@@ -301,7 +301,7 @@ io.on('connection', function (socket) {
         }
       }
       if (userRooms.length != 0) {
-        socket.broadcast.emit('get rooms', {
+        socket.emit('get rooms', {
           roomName: userRooms
         })
       }
@@ -309,14 +309,14 @@ io.on('connection', function (socket) {
     });
   });
 
-  // When the client emits 'select room', this listens and executes
+  // When the client emits 'join room', this listens and executes
   socket.on('join room', function(data) {
     console.log("join room.");
     console.log(data.roomName);
     socket.join(data.roomName);
     socket.room = data.roomName;
     // Echo globally (all clients) that a person has connected
-    io.sockets.in(socket.room).broadcast.emit('user joined', {
+    io.sockets.in(socket.room).emit('user joined', {
       username: socket.username
     });
   });
@@ -326,7 +326,7 @@ io.on('connection', function (socket) {
     console.log("leave room.");
     console.log(socket.room);
     socket.leave(socket.room);
-    io.sockets.in(socket.room).broadcast.emit('user left', {
+    io.sockets.in(socket.room).emit('user left', {
         username: socket.username
     });
     socket.room = null;
@@ -337,7 +337,7 @@ io.on('connection', function (socket) {
     console.log("New message");
     console.log(data);
     // We tell the client to execute 'new message'
-    io.sockets.in(socket.room).broadcast.emit('new message', {
+    io.sockets.in(socket.room).emit('new message', {
       username: socket.username,
       message: data
     });
@@ -347,7 +347,7 @@ io.on('connection', function (socket) {
   socket.on('multi typing', function(data) {
     console.log("Typing");
     console.log(data);
-    io.sockets.in(socket.room).broadcast.emit('typing', {
+    io.sockets.in(socket.room).emit('typing', {
       username: socket.username
     });
   });
@@ -355,7 +355,7 @@ io.on('connection', function (socket) {
   // When the user disconnects, perform this
   socket.on('multi disconnect', function(data) {
     socket.leave(data);
-    io.sockets.in(socket.room).broadcast.emit('user left', {
+    io.sockets.in(socket.room).emit('user left', {
         username: socket.username
     });
   });
