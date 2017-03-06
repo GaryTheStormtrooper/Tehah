@@ -317,7 +317,7 @@ io.on('connection', function (socket) {
     socket.room = data.roomName;
     // Echo globally (all clients) that a person has connected
     socket.emit('join up', {
-      roomName: roomName
+      roomName: data.roomName
     })
     io.sockets.in(socket.room).emit('user joined', {
       username: socket.username
