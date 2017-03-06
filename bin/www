@@ -231,10 +231,22 @@ io.on('connection', function (socket) {
   // When the client emits 'display local', this listens and executes
   socket.on('display local', function(data) {
     console.log("display local");
-    socket.broadcast.emit('get local', {
+    console.log("--add user");
+    if (addedUser) return;
+
+    // we store the username in the socket session for this client
+    socket.username = username;
+    ++numUsers;
+    addedUser = true;
+    socket.emit('login', {
       numUsers: numUsers
     });
-    console.log(numUsers);
+    // echo globally (all clients) that a person has connected
+    socket.broadcast.emit('user joined', {
+      username: socket.username,
+      numUsers: numUsers
+    });
+    console.log("--end of add user");
     /*
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
