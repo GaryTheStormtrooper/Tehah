@@ -261,6 +261,7 @@ io.on('connection', function (socket) {
             roomName: localRooms
           })
         }
+        console.log(localRooms);
       }
     });
   });
