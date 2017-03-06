@@ -170,6 +170,7 @@ connection.query('CREATE TABLE users (nameID CHAR(24) NOT NULL, roomName CHAR(28
 var tempRoom1 = { roomName : "GreenMonster", latitude : "34.0578432", longitude : "-117.8211132" };
 var tempRoom2 = { roomName : "PurpleDragon", latitude : "34.0578321", longitude : "-117.8211845" };
 var tempRoom3 = { roomName : "OrangeRobot", latitude : "34.0578254", longitude : "-117.8211371" };
+var tempRoom4 = { roomName : "RedGhost", latitude : "34.0579434", longitude : "-117.8226371" };
 connection.query('INSERT INTO rooms SET ?', tempRoom1, function(err, res) {
   if (err) {
     console.log(err);
@@ -275,20 +276,20 @@ io.on('connection', function (socket) {
       socket.username = data.username;
     }
     var userRooms = [];
-    var tempRoom;
     connection.query('SELECT * FROM users', function(err, rows, fields) {
       if (err || !row.length) {
         console.log(err);
       } else {
         for (var i = 0; i < rows.length; i++) {
-          tempRoom = rows[i].roomName;
-          userRooms.push(tempRoom);
+          userRooms.push(rows[i].roomName);
         }
       }
       if (userRooms.length != 0) {
-        console.log(userRooms);
-        socket.broadcast.emit('get rooms', userRooms);
+        socket.broadcast.emit('get rooms', {
+          roomName: userRooms
+        })
       }
+      console.log(userRooms);
     });
   });
 
