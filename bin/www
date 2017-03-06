@@ -229,17 +229,7 @@ io.on('connection', function (socket) {
   // When the client emits 'display local', this listens and executes
   socket.on('display local', function(data) {
     console.log("display local");
-    // we store the username in the socket session for this client
-    //socket.username = username;
-    //++numUsers;
-    //addedUser = true;
-    tempRoom = ["OrangeDog" , "PurpleCat"];
-    socket.emit('get local', {
-      roomName: tempRoom
-    
-    });
     console.log(tempRoom);
-    // console.log("--end of add user");
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
       //socket.username = data.username;
@@ -252,29 +242,21 @@ io.on('connection', function (socket) {
       } else {
         var latDif = 0.0;
         var lonDif = 0.0;
-        //var tempRoom;
-        var testArray = ["RedCat", "BlueDog"];
-        //var testString = "OrangeBall";
-        //var testNum = 47;
         var latWithin = deg2met.AtLatitude(inDistance, userLocation.latitude);
         var lonWithin = deg2met.AtLongitude(inDistance, userLocation.latitude);
         for (var i = 0; i < rows.length; i++) {
           latDif = Math.abs(userLocation.latitude - rows[i].latitude);
           lonDif = Math.abs(userLocation.longitude - rows[i].longitude);
           if ((latDif < latWithin) && (lonDif < lonWithin)) {
-            //tempRoom = { roomName : rows[i].roomName };
-            //localRooms.push(tempRoom);
             localRooms.push(rows[i].roomName);
           }
         }
         if (localRooms.length != 0) {
-          //console.log(localRooms);
-          //socket.broadcast.emit('get local', localRooms);
           socket.emit('get local', {
-            roomName: testArray
+            roomName: localRooms
           })
         }
-        console.log(testArray);
+        console.log(localRooms);
       }
     });
   });
