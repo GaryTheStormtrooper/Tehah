@@ -8,7 +8,7 @@ var debug = require('debug')('tehah:server');
 var http = require('http');
 var mysql = require('mysql');
 var deg2met = require('./distance')
-var inDistance = 1000; // meters
+var inDistance = 10; // meters
 
 /**
  * Debug
@@ -166,6 +166,7 @@ connection.query('CREATE TABLE users (nameID CHAR(24) NOT NULL, roomName CHAR(28
     }
 });
 
+/* 
 // temp code to populate *rooms*
 var tempRoom1 = { roomName : "GreenMonster", latitude : "34.0578432", longitude : "-117.8211132" };
 var tempRoom2 = { roomName : "PurpleDragon", latitude : "34.0578321", longitude : "-117.8211845" };
@@ -198,11 +199,12 @@ connection.query('SELECT * FROM rooms', function(err, rows, fields) {
     console.log("Populated *rooms*");
   }
 });
+*/
 
 /**
  * Socket.io chat room
  */
-var numUsers = 0; // for old chat code
+//var numUsers = 0; // for old chat code
 
 io.on('connection', function (socket) {
   var addedUser = false;
@@ -218,8 +220,8 @@ io.on('connection', function (socket) {
       socket.nameID = data.nameID;
       socket.username = data.username;
     }
-    var chatRoom = { roomName : data.roomName, latitude : data.latitude, longitude : data.longitude };
-    var userRoom = { nameID : data.nameID, roomName : data.roomName };
+    var chatRoom = { roomName: data.roomName, latitude: data.latitude, longitude: data.longitude };
+    var userRoom = { nameID: data.nameID, roomName: data.roomName };
     connection.query('SELECT * FROM rooms WHERE roomName = ?', data.roomName, function(err, rows) {
       if (err) {
         console.log(err)
