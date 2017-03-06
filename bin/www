@@ -261,6 +261,8 @@ io.on('connection', function (socket) {
             roomName: localRooms
           })
         }
+        console.log(userLocation.latitude);
+        console.log(userLocation.longitude);
         console.log(localRooms);
       }
     });
