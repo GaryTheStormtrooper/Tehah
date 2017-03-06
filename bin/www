@@ -233,11 +233,12 @@ io.on('connection', function (socket) {
     //socket.username = username;
     //++numUsers;
     //addedUser = true;
-    //tempRoom = ["OrangeDog" , "PurpleCat"];
-    //socket.emit('get local', {
-    //  roomName: tempRoom
-    //
-    //});
+    tempRoom = ["OrangeDog" , "PurpleCat"];
+    socket.emit('get local', {
+      roomName: tempRoom
+    
+    });
+    console.log(tempRoom);
     // console.log("--end of add user");
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
@@ -268,12 +269,12 @@ io.on('connection', function (socket) {
         }
         if (localRooms.length != 0) {
           //console.log(localRooms);
-          console.log(testArray);
           //socket.broadcast.emit('get local', localRooms);
           socket.broadcast.emit('get local', {
             roomName: testArray
           })
         }
+        console.log(testArray);
       }
     });
   });
