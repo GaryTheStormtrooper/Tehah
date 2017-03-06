@@ -186,6 +186,11 @@ connection.query('INSERT INTO rooms SET ?', tempRoom3, function(err, res) {
     console.log(err);
   }
 });
+connection.query('INSERT INTO rooms SET ?', tempRoom4, function(err, res) {
+  if (err) {
+    console.log(err);
+  }
+});
 connection.query('SELECT * FROM rooms', function(err, rows, fields) {
   if (err || !rows.length) {
     console.log(err);
@@ -215,21 +220,32 @@ io.on('connection', function (socket) {
     }
     var chatRoom = { roomName : data.roomName, latitude : data.latitude, longitude : data.longitude };
     var userRoom = { nameID : data.nameID, roomName : data.roomName };
-    connection.query('INSERT INTO rooms SET ?', chatRoom, function(err, res) {
+    connection.query('SELECT roomName FROM rooms WHERE roomName = ?', data.roomName, function(err, rows) {
       if (err) {
-        console.log(err);
+        console.log(err)
+      } else {
+        if (!row.length) {
+          console.log("Storing new room");
+          connection.query('INSERT INTO rooms SET ?', chatRoom, function(err, res) {
+            if (err) {
+              console.log(err);
+            }
+          })
+          connection.query('INSERT INTO users SET ?', userRoom, function(err, res) {
+            if (err) {
+              console.log(err);
+            }
+          })
+        }
+        socket.room = data.roomName;
+        socket.join(socket.room);
+        console.log("Joined:");
+        console.log(socket.room);
+        // Echo globally (all clients) that a person has connected
+        io.sockets.in(data.room).emit('user joined', {
+          username: socket.username
+      })
       }
-    })
-    connection.query('INSERT INTO users SET ?', userRoom, function(err, res) {
-      if (err) {
-        console.log(err);
-      }
-    })
-    socket.room = data.roomName;
-    socket.join(socket.room);
-    // Echo globally (all clients) that a person has connected
-    io.sockets.in(data.room).emit('user joined', {
-      username: socket.username
     });
   });
 
