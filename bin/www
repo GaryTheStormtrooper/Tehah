@@ -8,7 +8,7 @@ var debug = require('debug')('tehah:server');
 var http = require('http');
 var mysql = require('mysql');
 var deg2met = require('./distance')
-var inDistance = 10; // meters
+var inDistance = 1000; // meters
 
 /**
  * Debug
@@ -170,7 +170,7 @@ connection.query('CREATE TABLE users (nameID CHAR(24) NOT NULL, roomName CHAR(28
 var tempRoom1 = { roomName : "GreenMonster", latitude : "34.0578432", longitude : "-117.8211132" };
 var tempRoom2 = { roomName : "PurpleDragon", latitude : "34.0578321", longitude : "-117.8211845" };
 var tempRoom3 = { roomName : "OrangeRobot", latitude : "34.0578254", longitude : "-117.8211371" };
-var tempRoom4 = { roomName : "RedGhost", latitude : "34.0579434", longitude : "-117.8226371" };
+var tempRoom4 = { roomName : "RedGhost", latitude : "34.059432", longitude : "-117.822426" };
 connection.query('INSERT INTO rooms SET ?', tempRoom1, function(err, res) {
   if (err) {
     console.log(err);
@@ -220,11 +220,11 @@ io.on('connection', function (socket) {
     }
     var chatRoom = { roomName : data.roomName, latitude : data.latitude, longitude : data.longitude };
     var userRoom = { nameID : data.nameID, roomName : data.roomName };
-    connection.query('SELECT roomName FROM rooms WHERE roomName = ?', data.roomName, function(err, rows) {
+    connection.query('SELECT * FROM rooms WHERE roomName = ?', data.roomName, function(err, rows) {
       if (err) {
         console.log(err)
       } else {
-        if (!row.length) {
+        if (!rows.length) {
           console.log("Storing new room");
           connection.query('INSERT INTO rooms SET ?', chatRoom, function(err, res) {
             if (err) {
@@ -244,7 +244,7 @@ io.on('connection', function (socket) {
         // Echo globally (all clients) that a person has connected
         io.sockets.in(data.room).emit('user joined', {
           username: socket.username
-      })
+        })
       }
     });
   });
