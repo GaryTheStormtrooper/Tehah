@@ -237,7 +237,7 @@ io.on('connection', function (socket) {
     ++numUsers;
     //addedUser = true;
     socket.emit('get local', {
-      numUsers: numUsers
+      numUsers: "GreenDragon"
     });
     // echo globally (all clients) that a person has connected
     //socket.broadcast.emit('user joined', {
