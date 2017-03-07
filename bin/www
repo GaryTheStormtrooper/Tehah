@@ -345,21 +345,21 @@ io.on('connection', function (socket) {
   socket.on('new message', function(data) {
     console.log("New message");
     console.log(socket.room);
-    console.log(socket.username);
+    console.log(data.username);
     console.log(data);
     // We tell the client to execute 'new message'
     socket.broadcast.to(socket.room).emit('new message', {
       username: data.username,
-      message: data
+      message: data.message
     });
   });
 
   // When the client emits 'typing', we broadcast it to others
   socket.on('typing', function(data) {
     console.log("Typing");
-    console.log(data);
+    console.log(data.username);
     socket.broadcast.to(socket.room).emit('typing', {
-      username: socket.username
+      username: data.username
     });
   });
 
