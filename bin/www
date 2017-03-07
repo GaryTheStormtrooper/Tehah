@@ -344,6 +344,8 @@ io.on('connection', function (socket) {
   // When the client emits 'new message', this listens and executes
   socket.on('new message', function(data) {
     console.log("New message");
+    console.log(socket.room);
+    console.log(socket.username);
     console.log(data);
     // We tell the client to execute 'new message'
     socket.broadcast.to(socket.room).emit('new message', {
