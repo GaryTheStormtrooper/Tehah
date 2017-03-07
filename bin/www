@@ -262,10 +262,7 @@ io.on('connection', function (socket) {
     console.log("display local");
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
-      socket.username = data.username;
-      console.log("Username:");
-      console.log(socket.username);
-      
+      //socket.username = data.username;
     }
     var userLocation = { latitude : data.latitude, longitude : data.longitude };
     var localRooms = [];
@@ -300,9 +297,7 @@ io.on('connection', function (socket) {
     console.log("display room.");
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
-      socket.username = data.username;
-      console.log("Username:");
-      console.log(socket.username);
+      //socket.username = data.username;
     }
     var userRooms = [];
     connection.query('SELECT * FROM users', function(err, rows, fields) {
@@ -351,6 +346,7 @@ io.on('connection', function (socket) {
   // When the client emits 'new message', this listens and executes
   socket.on('new message', function(data) {
     console.log("New message");
+    socket.username = "Someone"; // **********
     console.log(socket.room);
     console.log(socket.username);
     console.log(data);
