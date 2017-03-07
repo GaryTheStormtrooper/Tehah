@@ -218,8 +218,8 @@ io.on('connection', function (socket) {
     console.log("create room.");
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
-      //socket.username = data.username;
     }
+    socket.username = data.username;
     var chatRoom = { roomName: data.roomName, latitude: data.latitude, longitude: data.longitude };
     var userRoom = { nameID: data.nameID, roomName: data.roomName };
     connection.query('SELECT * FROM rooms WHERE roomName = ?', data.roomName, function(err, rows) {
@@ -260,8 +260,8 @@ io.on('connection', function (socket) {
     console.log("display local");
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
-      //socket.username = data.username;
     }
+    socket.username = data.username;
     var userLocation = { latitude : data.latitude, longitude : data.longitude };
     var localRooms = [];
     connection.query('SELECT * FROM rooms', function(err, rows, fields) {
@@ -295,8 +295,8 @@ io.on('connection', function (socket) {
     console.log("display room.");
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
-      //socket.username = data.username;
     }
+    socket.username = data.username;
     var userRooms = [];
     connection.query('SELECT * FROM users', function(err, rows, fields) {
       if (err || !row.length) {
@@ -320,6 +320,7 @@ io.on('connection', function (socket) {
     console.log("join room.");
     console.log(data.roomName);
     socket.join(data.roomName);
+    socket.username = data.username;
     socket.room = data.roomName;
     // Echo globally (all clients) that a person has connected
     socket.emit('join up', {
@@ -359,7 +360,7 @@ io.on('connection', function (socket) {
     console.log("Typing");
     console.log(data.username);
     socket.broadcast.to(socket.room).emit('typing', {
-      username: data.username
+      username: socket.username
     });
   });
 
