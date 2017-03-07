@@ -218,9 +218,7 @@ io.on('connection', function (socket) {
     console.log("create room.");
     if (socket.nameID == null) {
       socket.nameID = data.nameID;
-      socket.username = data.username;
-      console.log("Username:");
-      console.log(socket.username);
+      //socket.username = data.username;
     }
     var chatRoom = { roomName: data.roomName, latitude: data.latitude, longitude: data.longitude };
     var userRoom = { nameID: data.nameID, roomName: data.roomName };
@@ -346,13 +344,12 @@ io.on('connection', function (socket) {
   // When the client emits 'new message', this listens and executes
   socket.on('new message', function(data) {
     console.log("New message");
-    socket.username = "Someone"; // **********
     console.log(socket.room);
     console.log(socket.username);
     console.log(data);
     // We tell the client to execute 'new message'
     socket.broadcast.to(socket.room).emit('new message', {
-      username: socket.username,
+      username: data.username,
       message: data
     });
   });
