@@ -359,13 +359,21 @@ io.on('connection', function (socket) {
 
   // When the client emits 'typing', we broadcast it to others
   socket.on('typing', function() {
-    console.log("Typing");
-    console.log(data.username);
+    console.log("Typing.");
+    console.log(socket.username);
     socket.broadcast.to(socket.room).emit('typing', {
       username: socket.username
     });
   });
 
+  // when the client emits 'stop typing', we broadcast it to others
+  socket.on('stop typing', function () {
+    console.log("Stop typing.");
+    socket.broadcast.to(socket.room).emit('stop typing', {
+      username: socket.username
+    });
+  });
+  
   // When the user disconnects, perform this
   socket.on('disconnect', function(data) {
     socket.leave(data);
