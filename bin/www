@@ -349,7 +349,7 @@ io.on('connection', function (socket) {
     console.log("New message");
     console.log(socket.room);
     console.log(data.username);
-    console.log(data);
+    console.log(data.message);
     // We tell the client to execute 'new message'
     socket.broadcast.to(socket.room).emit('new message', {
       username: data.username,
