@@ -356,7 +356,7 @@ io.on('connection', function (socket) {
   });
 
   // When the client emits 'typing', we broadcast it to others
-  socket.on('typing', function(data) {
+  socket.on('typing', function() {
     console.log("Typing");
     console.log(data.username);
     socket.broadcast.to(socket.room).emit('typing', {
