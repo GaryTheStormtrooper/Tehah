@@ -8,7 +8,7 @@ var debug = require('debug')('tehah:server');
 var http = require('http');
 var mysql = require('mysql');
 var deg2met = require('./distance')
-var inDistance = 10; // meters
+var inDistance = 100; // meters
 
 /**
  * Debug
