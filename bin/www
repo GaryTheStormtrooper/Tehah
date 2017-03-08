@@ -124,6 +124,7 @@ connection.connect(function(err) {
   }
 });
 
+/*
 // Erases "tehahdb" database
 connection.query('DROP DATABASE tehahdb', function(err, result) {
     if(err) {
@@ -132,9 +133,10 @@ connection.query('DROP DATABASE tehahdb', function(err, result) {
         console.log('Database tehahdb deleted.');
     }
 });
+*/
 
 // Creates "tehahdb" database
-connection.query('CREATE DATABASE tehahdb', function(err, result) {
+connection.query('CREATE DATABASE IF NOT EXISTS tehahdb', function(err, result) {
     // In case there is an error during the creation
     if(err) {
         console.error('Database failed to be created.');
