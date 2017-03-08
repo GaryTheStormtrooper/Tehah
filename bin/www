@@ -149,7 +149,7 @@ connection.query('CREATE DATABASE IF NOT EXISTS tehahdb', function(err, result) 
 connection.query('USE tehahdb');
 
 // Create "rooms" table
-connection.query('CREATE TABLE rooms (roomName CHAR(28) NOT NULL, latitude DOUBLE NOT NULL, longitude DOUBLE NOT NULL)', function(err, result) {
+connection.query('CREATE TABLE IF NOT EXISTS rooms (roomName CHAR(28) NOT NULL, latitude DOUBLE NOT NULL, longitude DOUBLE NOT NULL)', function(err, result) {
     // In case there is an error during the creation
     if(err) {
         console.error('Database *rooms* connection failed: ' + err.stack);
@@ -159,7 +159,7 @@ connection.query('CREATE TABLE rooms (roomName CHAR(28) NOT NULL, latitude DOUBL
 });
 
 // Create "users" table
-connection.query('CREATE TABLE users (nameID CHAR(24) NOT NULL, roomName CHAR(28) NOT NULL)', function(err, result) {
+connection.query('CREATE TABLE IF NOT EXISTS users (nameID CHAR(24) NOT NULL, roomName CHAR(28) NOT NULL)', function(err, result) {
     // In case there is an error during the creation
     if(err) {
         console.error('Database *users* connection failed: ' + err.stack);
