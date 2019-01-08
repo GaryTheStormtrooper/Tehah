@@ -20,3 +20,7 @@ With Tehah, you just click a button and everyone around you has instant access t
 It's just so easy. So simple. Stupid simple. Tehah.
 
 ****
+
+<p align="center"> 
+<img src="tehah.png"  alt="tehah_icon_logo">
+</p>
