@@ -1,7 +1,7 @@
 Tehah
 Stay Connected, Stupid Simple
 
-This is, for now, a Cal Poly Pomona CS580 Advanced Software Engineering student project by Scott Matsumura and Matt Yiyang Yan.
+By Scott Matsumura and Matt Yiyang Yan.
 
 ****
 
